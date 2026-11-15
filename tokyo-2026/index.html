@@ -1578,6 +1578,26 @@
     .shop-area{page-break-inside:avoid}
     .shop-card{background:white;break-inside:avoid}
   }
+
+  /* ===== 試算表資料 ===== */
+  .data-status{margin:12px 16px 0;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6;background:#fff4d6;color:#6b4e00;border:1px solid #f0d58a}
+  .data-status.is-error{background:#fbe3de;color:var(--vermillion);border-color:#efb6a9}
+  .sheet-bar{margin:0 0 14px;font-size:12px;color:var(--muted);line-height:1.6}
+  .sheet-bar a,.packing-intro a.sheet-edit-link{margin-left:8px;color:var(--indigo);font-weight:600;text-decoration:none;white-space:nowrap}
+  .days-empty{padding:28px 16px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
+  .day-stay{margin-top:8px;font-size:13px;color:var(--indigo);font-weight:600}
+  .stop-badge{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:600;vertical-align:middle;background:#ece6da;color:var(--muted);letter-spacing:0}
+  .stop-badge.s-草稿{background:#ece6da;color:var(--muted)}
+  .stop-badge.s-待確認,.stop-badge.s-要預約{background:#fbe3de;color:var(--vermillion)}
+  .stop-badge.s-已訂{background:#dde6cf;color:var(--moss)}
+  .stop-meta{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.6}
+  .stop-meta .sep{margin:0 6px;opacity:.5}
+  .stop-meta .warn{color:var(--vermillion);font-weight:600}
+  .data-issues{margin:24px 0 0;padding:12px 14px;border:1px dashed #efb6a9;border-radius:8px;background:#fdf3f0;font-size:13px;color:var(--ink-soft)}
+  .data-issues summary{cursor:pointer;color:var(--vermillion);font-weight:600}
+  .data-issues ul{margin:10px 0 0 18px;line-height:1.7}
+  .pack-note{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+  .pack-owner{margin-left:auto;padding:1px 8px;border-radius:999px;background:#ece6da;font-size:11px;color:var(--muted);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1622,6 +1642,7 @@
 </aside>
 
 <main class="main-content">
+<div class="data-status" id="data-status" hidden></div>
 
 <nav class="pill-nav" aria-label="Section navigation (mobile)">
   <button class="pill-item is-active" data-view="home"><span class="nav-num">序</span>封面</button>
@@ -1750,1044 +1771,13 @@
     <span class="tag">Day-by-Day</span>
   </div>
 
-  <!-- Tab Navigation -->
-  <nav class="tab-nav" role="tablist" aria-label="Day selector">
-    <button class="tab-btn is-active" data-day="1" role="tab" aria-selected="true">
-      <span class="tab-day-num">Day 1</span>
-      <span class="tab-date">12.25</span>
-      <span class="tab-label">金 · 淺草</span>
-    </button>
-    <button class="tab-btn" data-day="2" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 2</span>
-      <span class="tab-date">12.26</span>
-      <span class="tab-label">土 · 富士山</span>
-    </button>
-    <button class="tab-btn" data-day="3" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 3</span>
-      <span class="tab-date">12.27</span>
-      <span class="tab-label">日 · 輕井澤</span>
-    </button>
-    <button class="tab-btn" data-day="4" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 4</span>
-      <span class="tab-date">12.28</span>
-      <span class="tab-label">月 · 輕井澤</span>
-    </button>
-    <button class="tab-btn" data-day="5" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 5</span>
-      <span class="tab-date">12.29</span>
-      <span class="tab-label">火 · 搬家</span>
-    </button>
-    <button class="tab-btn" data-day="6" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 6</span>
-      <span class="tab-date">12.30</span>
-      <span class="tab-label">水 · 越後湯澤</span>
-    </button>
-    <button class="tab-btn" data-day="7" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 7</span>
-      <span class="tab-date">12.31</span>
-      <span class="tab-label">木 · 跨年</span>
-    </button>
-    <button class="tab-btn" data-day="8" role="tab" aria-selected="false">
-      <span class="tab-day-num">Day 8</span>
-      <span class="tab-date">1.1</span>
-      <span class="tab-label">金 · 歸途</span>
-    </button>
-  </nav>
+  <div class="sheet-bar">行程資料來自 Google 試算表「東京 2026 行程」,改試算表後重新整理就會更新。<a class="sheet-edit-link" href="#" target="_blank" rel="noopener">✎ 在試算表編輯</a></div>
 
-  <div class="day is-active" id="day1" data-day-id="1">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day One</span>
-        <span class="day-big">01</span>
-        <span class="day-of-week">金曜日 · 抵達日</span>
-      </div>
-      <div class="day-title">
-        <h3>抵達東京 · 淺草夜訪</h3>
-        <p class="narrative"><strong>CI100 上午出發、下午抵成田</strong>,京成直通淺草、約 16:00 入住。第一天不排硬行程:<strong>飯店就在淺草寺旁邊</strong>,傍晚走過去看打燈的雷門與五重塔,晚餐就近吃老店,早點回房休息。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.25</div>
-        <div class="date-jp">師走廿五日</div>
-      </div>
-    </div>
+  <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Day selector"></nav>
 
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day1" aria-label="Day 1 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
+  <div id="days-container"><div class="days-empty">讀取行程中…</div></div>
 
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">13:30</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">成田空港 抵達 · CI100</div><span class="stop-type ">Arrival</span></div>
-          <div class="stop-notes"><strong>TPE 09:30 → NRT(CI100)</strong>,抵達約 13:30(以航班表為準,中華航空冬季班表 CI100 多為上午出發、下午抵成田)。入境前先填好 <strong>Visit Japan Web</strong>,QR 截圖存手機。領完行李先在機場買 Suica / 開通 iPhone 錢包的 Suica,之後全程刷卡進出站。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Narita+International+Airport" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">14:30</div><div class="dur">80 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">機場 → 市區</div><span class="stop-type ">Transfer</span></div>
-          <div class="stop-notes">飯店在淺草,<strong>最順的是京成「アクセス特急」</strong> —— 成田機場直通都營淺草線,<strong>不用轉車</strong>到淺草駅約 60-75 分、大人約 ¥1,330。想快一點就搭 <strong>Skyliner 到日暮里 36 分</strong>(¥2,580)再轉 JR / 地鐵,但要扛行李換車。<strong>四人加行李也可考慮機場接送包車</strong>(約 ¥20,000-25,000),直接送到飯店門口最輕鬆。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Narita+Express" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">16:00</div><div class="dur">45 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">第一段飯店 check-in</div><span class="stop-type ">Hotel</span></div>
-          <div class="stop-notes"><strong>第一段住宿:淺草寺附近,12/25-12/29 共 4 晚</strong>(詳細地點待補)。位置很好用:<strong>淺草寺走路就到</strong>、晴空塔一站、上野兩站,成田還能直通。<strong>12/27 去輕井澤時房間保留</strong>,大行李留著就好。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Shinjuku+Station" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">17:15</div><div class="dur">75 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">淺草寺 夜間散步</div><span class="stop-type fun">Lights</span></div>
-          <div class="stop-notes"><strong>飯店走路就到</strong>,不用再搭車。<strong>夜間的雷門與五重塔會打燈</strong>,寶藏門前的大燈籠在夜裡最有氣氛,白天人擠人的仲見世這時候反而好走。<strong>年末的淺草已經掛上注連繩、擺出羽子板市的攤子</strong>。第一天剛下飛機,散步半小時剛好。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Marunouchi+Naka+Dori+Illumination" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">18:45</div><div class="dur">75 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">晚餐 · 淺草周邊</div><span class="stop-type food">Dinner</span></div>
-          <div class="stop-notes">第一天不折騰,<strong>飯店周邊解決</strong>。淺草的老店多:<strong>大黑家天婦羅</strong>(炸蝦丼)、<strong>淺草今半</strong>(壽喜燒)、或 <strong>ROX / 淺草地下街</strong>的平價選擇。<strong>12/25 晚上日本人不過節了</strong>(耶誕夜才是重點),餐廳比前一天好訂。走路回飯店,小孩撐不住可以隨時撤。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tokyo+Station+Ichibangai" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button disabled><span class="nav-label">← Prev</span><span class="nav-title">起點</span></button>
-      <button class="next" data-goto="2"><span class="nav-label">Next →</span><span class="nav-title">12.26 富士山包車</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day2" data-day-id="2">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Two</span>
-        <span class="day-big">02</span>
-        <span class="day-of-week">土曜日 · 富士山</span>
-      </div>
-      <div class="day-title">
-        <h3>富士山包車一日遊</h3>
-        <p class="narrative"><strong>已訂包車,全天</strong>。冬天是富士山能見度最好的季節 —— 空氣乾、雲少,雪冠完整。順時針走河口湖一圈:忠靈塔的五重塔配雪富士、大石公園的湖畔視角、忍野八海的湧泉村落。全程戶外、體感比東京低 5-8°C,穿輕井澤等級的衣服。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.26</div>
-        <div class="date-jp">師走廿六日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day2" aria-label="Day 2 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">08:00</div><div class="dur">2 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">飯店出發 · 上中央道</div><span class="stop-type ">Drive</span></div>
-          <div class="stop-notes">包車直接到飯店接。東京 → 河口湖約 <strong>100-120 km / 2 小時</strong>,中央自動車道。<strong>先跟司機確認:雪胎或鏈條、午餐怎麼安排、回程幾點到飯店。</strong>車上備暈車藥,中央道彎多。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Chuo+Expressway" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">10:00</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">新倉山淺間公園 忠靈塔</div><span class="stop-type ">View Point</span></div>
-          <div class="stop-notes">富士山最經典的一張:<strong>五重塔 + 雪富士 + 市街</strong>。從停車場要<strong>爬 398 階</strong>(旁邊有平緩的迂迴坡道,帶小孩走那條)。冬季階梯可能結霜,鞋底要有抓地力。上午順光最漂亮。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Arakurayama+Sengen+Park" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">11:30</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">忍野八海</div><span class="stop-type fun">Village</span></div>
-          <div class="stop-notes">富士雪水湧出的八個清池,水清到見底,村落茅草屋頂配雪山。<strong>腹地小、好走、適合小孩</strong>,有烤糰子與草餅小攤。冬天池邊會結霜,地滑要牽好。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Oshino+Hakkai" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">12:45</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 河口湖 ほうとう</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes">山梨名物<strong>ほうとう</strong>(南瓜味噌寬麵鍋),冬天吃最對,<strong>不加辣、麵軟,小孩好入口</strong>。「ほうとう不動 東恋路店」白色曲線建築很好認。先確認包車方案含不含司機餐。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Houtou+Fudou+Kawaguchiko" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">14:00</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">大石公園 · 河口湖北岸</div><span class="stop-type park">Lake</span></div>
-          <div class="stop-notes"><strong>隔著河口湖正對富士山</strong>的最佳湖畔視角,旁邊有<strong>河口湖自然生活館</strong>(室內可避寒、賣藍莓霜淇淋與土產)。冬天湖面無風時會有「逆富士」倒影。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Oishi+Park+Kawaguchiko" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">15:15</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">河口湖 ~ 富士山全景纜車</div><span class="stop-type ">Ropeway</span></div>
-          <div class="stop-notes"><strong>天候與體力有餘再加</strong>。3 分鐘上到展望台(標高 1,075 m),一次看富士山 + 河口湖全景,台上有兔子與狸貓的童話造景。來回大人 ¥900 / 兒童 ¥450。風大會停駛。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Mt+Fuji+Panoramic+Ropeway" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">16:30</div><div class="dur">2 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">回東京</div><span class="stop-type ">Drive</span></div>
-          <div class="stop-notes">冬天 16:40 前後天就黑了,<strong>順光時段結束就該下山</strong>。回程遇上週末返程車潮,抓 2-2.5 小時。小孩多半在車上睡死,晚餐回東京再吃。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tokyo" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="1"><span class="nav-label">← Prev</span><span class="nav-title">12.25 抵達 · 淺草</span></button>
-      <button class="next" data-goto="3"><span class="nav-label">Next →</span><span class="nav-title">12.27 輕井澤玩雪</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day3" data-day-id="3">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Three</span>
-        <span class="day-big">03</span>
-        <span class="day-of-week">日曜日 · 玩雪日</span>
-      </div>
-      <div class="day-title">
-        <h3>輕井澤 · 第一次玩雪</h3>
-        <p class="narrative"><strong>北陸新幹線 70 分</strong>從東京直達輕井澤,車站走路就到滑雪場 —— 帶小孩不用再轉車。<strong>輕井澤住一晚(2 天 1 夜,已訂)</strong>,東京的房間同時保留,<strong>大行李留東京、只帶小包</strong>。下午進<strong>雪樂園</strong>玩雪橇與雪上甜甜圈,小學生以下纜車免費,晚上泡湯吃飯。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.27</div>
-        <div class="date-jp">師走廿七日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day3" aria-label="Day 3 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:00</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">東京駅 · 北陸新幹線</div><span class="stop-type ">Train</span></div>
-          <div class="stop-notes"><strong>あさま</strong>號到輕井澤約 <strong>70 分</strong>,大人指定席約 ¥6,000、兒童半價。<strong>年末是繁忙期,指定席務必提早劃</strong>(乘車日前一個月 10:00 開賣,えきねっと 可線上劃)。帶大行李選<strong>最後一排座位後方空間</strong>。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tokyo+Station" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">10:20</div><div class="dur">30 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">輕井澤駅 抵達</div><span class="stop-type ">Arrival</span></div>
-          <div class="stop-notes">出站就是雪景。<strong>大行李留在東京飯店</strong>,今天只帶一夜份的小包 —— 輕井澤的房間是另訂的 2 天 1 夜,東京房間不退。<strong>月台與站外溫差極大</strong>,下車前先把外套手套穿好。車站南口直接通往王子滑雪場與 Outlet。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Station" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">11:00</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">飯店 寄放行李 / check-in</div><span class="stop-type ">Hotel</span></div>
-          <div class="stop-notes"><strong>輕井澤住宿已訂 · 2 天 1 夜(12/27 住一晚)</strong>,飯店名稱待補。<strong>東京第一段的房間同時保留</strong>,所以<strong>大行李可以留在東京飯店</strong>,只帶一夜的換洗與雪具上車 —— 這是這種訂法最大的好處。帶小孩建議確認飯店有沒有<strong>溫泉或大浴場</strong>,玩完雪泡湯最舒服。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Hotel" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">12:00</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 雪場餐廳</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes">雪場中央餐廳或 Outlet 美食區。<strong>先吃飽再玩雪</strong>,小孩冷 + 餓會瞬間崩潰。熱可可與豚汁是標配。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Shopping+Plaza" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">13:00</div><div class="dur">3 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">輕井澤王子滑雪場 · 雪樂園</div><span class="stop-type park">Snow</span></div>
-          <div class="stop-notes">今天的主角。<strong>キッズパーク(雪樂園)入園約 ¥2,300-3,000 含雪橇</strong>、2 歲以下免費,有<strong>魔毯電扶梯、雪橇坡、雪上甜甜圈</strong>,不用會滑雪。<strong>小學生以下纜車免費</strong>,8 歲的想正式滑可單買兒童課程。<strong>雪具可現場租</strong>(雪衣雪鞋手套都有),不必從台灣全扛。價格每年調整,出發前上官網確認。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Hotel+Ski+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">16:30</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">泡湯暖身</div><span class="stop-type fun">Onsen</span></div>
-          <div class="stop-notes"><strong>玩完雪立刻泡湯</strong>是這趟的重點之一。飯店大浴場或<strong>星野溫泉 蜻蜓之湯</strong>(大人 ¥1,350 / 小學生 ¥800)。濕掉的手套襪子回房馬上烘,隔天還要用。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Hoshino+Onsen+Tombo+no+Yu" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">18:00</div><div class="dur">90 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">晚餐 · 輕井澤</div><span class="stop-type food">Dinner</span></div>
-          <div class="stop-notes">星野區的<strong>Harunire Terrace(榆樹街小鎮)</strong>有 15 家店,冬天點燈很美,川上庵的蕎麥麵、Sawamura 的麵包都有名。或飯店內用餐最省事 —— 玩雪一整天,小孩通常撐不久。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Harunire+Terrace" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="2"><span class="nav-label">← Prev</span><span class="nav-title">12.26 富士山包車</span></button>
-      <button class="next" data-goto="4"><span class="nav-label">Next →</span><span class="nav-title">12.28 輕井澤 Outlet</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day4" data-day-id="4">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Four</span>
-        <span class="day-big">04</span>
-        <span class="day-of-week">月曜日 · 森林日</span>
-      </div>
-      <div class="day-title">
-        <h3>輕井澤 · 森林散步與 Outlet</h3>
-        <p class="narrative">第二天放慢:雲場池的雪景水鏡、舊輕井澤銀座的老街散步,下午在王子 Outlet 補貨(童裝與戶外品牌最划算),傍晚新幹線回東京。想再玩一次雪也可以 —— 雪樂園就在 Outlet 隔壁。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.28</div>
-        <div class="date-jp">師走廿八日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day4" aria-label="Day 4 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:00</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">飯店早餐 + 退房</div><span class="stop-type ">Hotel</span></div>
-          <div class="stop-notes"><strong>只有一夜的小包,行李可直接寄車站或 Outlet 置物櫃</strong>。退房前確認昨天烘的雪衣雪襪都乾了。晚上回東京第一段飯店(房間還在,不用重新 check-in 大行李)。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Hotel" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:45</div><div class="dur">45 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">雲場池</div><span class="stop-type park">Park</span></div>
-          <div class="stop-notes"><strong>別名天鵝湖</strong>,一圈 20 分的小池。冬天結冰加殘雪,周圍落葉松林,安靜到只剩腳步聲。<strong>路面結冰要穿防滑鞋</strong>,推車不好推,小孩可能要抱。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Kumoba+Pond+Karuizawa" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">10:45</div><div class="dur">75 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">舊輕井澤銀座通</div><span class="stop-type shop">Street</span></div>
-          <div class="stop-notes">百年避暑勝地的老街,<strong>腸詰屋香腸、澤屋果醬、Mikado Coffee 的摩卡霜淇淋</strong>(冬天也賣)。<strong>12/28 之後部分店家開始年末休業</strong>,想買果醬當伴手禮的話今天就要買。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Kyu+Karuizawa+Ginza" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">12:15</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 舊輕井澤</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes">川上庵本店的蕎麥麵、或腸詰屋的德式香腸。<strong>冬天店家中午人少</strong>,不太需要排隊。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Kawakamian+Karuizawa" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">13:30</div><div class="dur">2.5 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">輕井澤王子購物廣場</div><span class="stop-type shop">Outlet</span></div>
-          <div class="stop-notes"><strong>日本最大的 Outlet 之一</strong>,約 200 家店,車站旁走路 3 分。重點:<strong>mont-bell / THE NORTH FACE / Columbia</strong> 戶外保暖、<strong>MIKI HOUSE / familiar / 西松屋</strong> 童裝、adidas / NIKE 童鞋。<strong>室外步行式商場,很冷</strong>,中間的味之街可以躲進去暖身。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Shopping+Plaza" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">16:00</div><div class="dur">90 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">再玩一次雪(選配)</div><span class="stop-type park">Snow</span></div>
-          <div class="stop-notes">小孩還有電的話,雪樂園就在 Outlet 隔壁,<strong>傍晚人更少</strong>。或直接進車站旁的麵包店喝熱可可等車。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Hotel+Ski+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">17:30</div><div class="dur">70 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">新幹線回東京</div><span class="stop-type ">Train</span></div>
-          <div class="stop-notes"><strong>回程指定席也要先劃</strong>。回東京第一段飯店(12/29 才退房),晚餐在飯店附近解決就好。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Karuizawa+Station" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="3"><span class="nav-label">← Prev</span><span class="nav-title">12.27 輕井澤玩雪</span></button>
-      <button class="next" data-goto="5"><span class="nav-label">Next →</span><span class="nav-title">12.29 淺草 · 搬家</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day5" data-day-id="5">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Five</span>
-        <span class="day-big">05</span>
-        <span class="day-of-week">火曜日 · 搬家日</span>
-      </div>
-      <div class="day-title">
-        <h3>淺草收尾 · 搬家到原宿</h3>
-        <p class="narrative">今天要從<strong>淺草的飯店換到明治神宮旁的第二段飯店</strong>。上午把淺草周邊玩完(走路就到的範圍),中午帶行李移動,下午在原宿 / 表參道一帶輕鬆逛 —— 順便認識接下來三晚的生活圈。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.29</div>
-        <div class="date-jp">師走廿九日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day5" aria-label="Day 5 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:00</div><div class="dur">2.5 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">淺草寺 · 仲見世通 白天版</div><span class="stop-type shrine">Shrine</span></div>
-          <div class="stop-notes">住在旁邊的好處:<strong>早上 9 點前的仲見世幾乎沒人</strong>,拍雷門不用等。年末會掛上注連繩、擺出羽子板市的攤子。小孩想玩的話,<strong>淺草花屋敷</strong>(日本最古老的遊樂園,入園 ¥1,200)步行 5 分。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Sensoji+Temple" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">11:30</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 淺草老店</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes"><strong>大黑家天婦羅</strong>(江戶前炸蝦丼)或<strong>淺草今半</strong>(壽喜燒)。吃完回飯店拿行李,不用趕。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Daikokuya+Tempura+Asakusa" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">13:00</div><div class="dur">75 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">退房 · 移動到原宿</div><span class="stop-type ">Transfer</span></div>
-          <div class="stop-notes">淺草 → 原宿:<strong>銀座線到表參道轉千代田線</strong>,或都營淺草線 → 新橋 → JR 山手線,都約 40-50 分、要轉一次。<strong>四人帶行李的話,計程車約 ¥5,000-7,000</strong>(30-40 分),省下扛行李上下樓梯,這段值得花。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Harajuku+Station" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">14:30</div><div class="dur">45 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">第二段飯店 check-in</div><span class="stop-type ">Hotel</span></div>
-          <div class="stop-notes"><strong>明治神宮附近,12/29-1/1 共 3 晚</strong>(詳細地點待補)。這個位置的最大價值在 <strong>1/1 初詣 —— 走路就到明治神宮</strong>,可以挑人少的時段去。原宿 / 代代木也是回成田的好起點(新宿搭 N&#39;EX)。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Meiji+Jingu" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">15:30</div><div class="dur">2 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">表參道 · 竹下通</div><span class="stop-type shop">Shopping</span></div>
-          <div class="stop-notes"><strong>表參道的燈飾會亮到跨年</strong>,整條櫸木大道打上燈。大人逛 select shop 與 <strong>Kiddy Land 原宿店</strong>(玩具三層樓),小孩愛竹下通的可麗餅與雜貨。<strong>12/29 人潮開始湧現</strong>,牽好小孩。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Omotesando+Tokyo" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">18:00</div><div class="dur">90 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">晚餐 · 原宿 / 代代木</div><span class="stop-type food">Dinner</span></div>
-          <div class="stop-notes">飯店周邊解決,今天搬家已經夠累。這一帶家庭餐廳與拉麵店不少,<strong>但年末很多店 12/29 就開始休業</strong>,想吃特定的店先查營業日。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Harajuku+Dinner" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="4"><span class="nav-label">← Prev</span><span class="nav-title">12.28 輕井澤 Outlet</span></button>
-      <button class="next" data-goto="6"><span class="nav-label">Next →</span><span class="nav-title">12.30 待排</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day6" data-day-id="6">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Six</span>
-        <span class="day-big">06</span>
-        <span class="day-of-week">水曜日 · 玩雪日</span>
-      </div>
-      <div class="day-title">
-        <h3>越後湯澤 · GALA 雪場一日</h3>
-        <p class="narrative">東京出發 <strong>71 分新幹線直達、車站直結滑雪場</strong> —— 不用轉車、不用在雪地走路、雪具現場租、玩完還能泡溫泉再回東京。帶 5 歲和 8 歲當天來回最順的雪場就是這裡。<strong>當天來回,晚上回第二段飯店。</strong></p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.30</div>
-        <div class="date-jp">師走三十日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day6" aria-label="Day 6 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">07:30</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">東京駅 · 上越新幹線</div><span class="stop-type ">Train</span></div>
-          <div class="stop-notes"><strong>とき / たにがわ</strong> 直達 <strong>ガーラ湯沢駅</strong>,最快 <strong>71 分</strong>(多數班次 77 分)。<strong>車站直結滑雪場</strong> —— 出閘口就是租雪具的櫃台與纜車站,不用轉車、不用走雪路,這是帶小孩選 GALA 的最大理由。<strong>年末指定席要提早劃</strong>(乘車日前一個月 10:00)。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:00</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">ガーラ湯沢駅 抵達 · 租雪具</div><span class="stop-type park">Snow</span></div>
-          <div class="stop-notes">出站即是 <strong>GALA 湯沢 スキーセンター「カワバンガ」</strong>,裡面有租借櫃台、置物櫃、更衣室、餐廳、溫泉。<strong>雪衣雪褲雪鞋手套都能現場租</strong>,不用從東京扛。先換裝、寄行李,再上山。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:45</div><div class="dur">3.5 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">雪遊びパーク · 玩雪</div><span class="stop-type park">Snow</span></div>
-          <div class="stop-notes">中央區下方的<strong>雪遊び專用區</strong>,2025-26 季是<strong>免費</strong>使用(26-27 季要再確認),可玩雪橇、堆雪人、雪上打滾,不需要買纜車券。<strong>5 歲在這裡玩就夠了</strong>;8 歲想正式滑雪可單買纜車券或兒童滑雪課。<strong>注意:26-27 季南區停止營業</strong>,只開中央與北區。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">13:00</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 滑雪中心</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes">カワバンガ 內的餐廳,咖哩、拉麵、豚汁這類熱食。<strong>中午人最多</strong>,11:45 或 13:15 錯開比較好找位子。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">14:00</div><div class="dur">90 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">續玩 / 纜車上山看雪景</div><span class="stop-type park">Snow</span></div>
-          <div class="stop-notes">不滑雪也可以<strong>單買纜車來回票上山看雪景</strong>。或讓小孩在雪park 再放一輪電。<strong>早割一日纜車券 ¥4,800</strong>(10/15-11/30 線上販售,比現場便宜)。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">16:00</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">溫泉 · SPA GALA</div><span class="stop-type fun">Onsen</span></div>
-          <div class="stop-notes">滑雪中心裡就有<strong>溫泉與大浴場</strong>,玩完雪直接泡,再換衣服搭車 —— 不用濕答答地回東京,這點對帶小孩差很多。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">17:30</div><div class="dur">80 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">新幹線回東京</div><span class="stop-type ">Train</span></div>
-          <div class="stop-notes">回程一樣 ガーラ湯沢 直發東京。<strong>回程指定席也要先劃</strong>。小孩通常上車就睡,晚餐回東京再吃。<strong>越後湯澤駅</strong>(GALA 隔一站)的站內「ぽんしゅ館」有清酒試飲與爆彈飯糰,想順道可在那轉車。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=GALA+Yuzawa+Snow+Resort" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="5"><span class="nav-label">← Prev</span><span class="nav-title">12.29 淺草 · 搬家</span></button>
-      <button class="next" data-goto="7"><span class="nav-label">Next →</span><span class="nav-title">12.31 大晦日跨年</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day7" data-day-id="7">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Seven</span>
-        <span class="day-big">07</span>
-        <span class="day-of-week">木曜日 · 大晦日</span>
-      </div>
-      <div class="day-title">
-        <h3>大晦日 · 年末市集與跨年</h3>
-        <p class="narrative">日本的大晦日:白天逛年末市集、吃一碗<strong>年越そば</strong>,晚上跨年。<strong>你們住明治神宮旁邊</strong> —— 明治神宮<strong>跨年夜通宵開放</strong>,12/31 深夜到 1/1 清晨是全日本最大的參拜人潮。住得近的好處是<strong>可以選時段</strong>,不用跟人擠大眾運輸。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">12.31</div>
-        <div class="date-jp">師走卅一日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day7" aria-label="Day 7 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">10:00</div><div class="dur">2 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">阿美橫町 年末市集</div><span class="stop-type shop">Market</span></div>
-          <div class="stop-notes">上野車站旁的露天市場,<strong>年末是一年中最熱鬧的時候</strong>,整條街喊賣海鮮年貨,價格一路砍。從原宿搭 JR 山手線約 25 分。<strong>人非常多,牽好小孩</strong>,推車推不動。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Ameyoko+Ueno" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">12:30</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 年越そば</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes">大晦日吃蕎麥麵是習俗(麵長=長壽、好切斷=切斷厄運)。<strong>不用找名店</strong>,車站旁的立食蕎麥就很道地。小孩吃不慣就點烏龍。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Toshikoshi+Soba+Tokyo" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">14:30</div><div class="dur">2.5 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">回飯店休息 / 收行李</div><span class="stop-type ">Rest</span></div>
-          <div class="stop-notes">今晚會晚睡,<strong>下午一定要讓小孩補眠</strong>。<strong>百貨與超市今天 17:00-18:00 就關</strong>,要買的中午前買完。明天回程,順便收一波行李。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Harajuku" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">17:30</div><div class="dur">90 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">晚餐 · 早點吃</div><span class="stop-type food">Dinner</span></div>
-          <div class="stop-notes"><strong>12/31 很多餐廳不營業或提早收</strong>,<strong>建議前一天先訂位</strong>,或買超商、百貨地下街的年夜菜回飯店吃(日本人也這樣過)。超商全年無休是最可靠的後盾。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tokyo+New+Years+Eve+Dinner" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">19:20</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">紅白歌合戰 / 補眠</div><span class="stop-type ">Rest</span></div>
-          <div class="stop-notes">NHK 紅白 19:20-23:45。<strong>帶 5 歲小孩,飯店跨年是最務實的選項</strong>,接著看「ゆく年くる年」聽各地除夜鐘。先睡一輪、23:30 再起來也行。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">23:30</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">明治神宮 跨年參拜(選配)</div><span class="stop-type fun">Countdown</span></div>
-          <div class="stop-notes"><strong>走路就到,這是住這裡最大的優勢。</strong>明治神宮 <strong>12/31 深夜通宵開放</strong>,午夜一到開始初詣,三天參拜人數全日本第一(逾 300 萬)。<strong>午夜前後是最高峰,排隊可能 1-2 小時、氣溫 2-4°C。</strong>帶小孩的務實做法:<strong>跳過午夜,改成 1/1 清晨 6-7 點走過去</strong>,人少很多還能看初日出。想湊熱鬧的替代:<strong>澀谷倒數</strong>(一站)、<strong>增上寺</strong>除夜鐘與氣球。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Meiji+Jingu" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="6"><span class="nav-label">← Prev</span><span class="nav-title">12.30 待排</span></button>
-      <button class="next" data-goto="8"><span class="nav-label">Next →</span><span class="nav-title">1.1 初詣 · 歸國</span></button>
-    </div>
-  </div>
-
-  <div class="day" id="day8" data-day-id="8">
-    <div class="day-header">
-      <div class="day-number">
-        <span class="day-label">Day Eight</span>
-        <span class="day-big">08</span>
-        <span class="day-of-week">金曜日 · 元日</span>
-      </div>
-      <div class="day-title">
-        <h3>明治神宮初詣 · 歸國</h3>
-        <p class="narrative">住在明治神宮旁的最大回報就是今天:<strong>清晨走路過去初詣</strong>,避開午夜的恐怖人潮,還能看初日出。回來吃早餐收行李,逛一下表參道的初賣,<strong>13:15 從新宿搭 N&#39;EX 往成田</strong>,趕 <strong>CI105 17:45</strong> 的班機。</p>
-      </div>
-      <div class="day-date">
-        <div class="date-mm">1.1</div>
-        <div class="date-jp">睦月元日</div>
-      </div>
-    </div>
-
-    <div class="day-map-wrap">
-      <div class="day-map" id="map-day8" aria-label="Day 8 map"></div>
-      <div class="day-map-legend">
-        <span class="dot">景點順序</span>
-        <span class="line">大致路線</span>
-        <span class="meta">點擊圖標查看詳情</span>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">06:30</div><div class="dur">2 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">明治神宮 初詣</div><span class="stop-type shrine">Shrine</span></div>
-          <div class="stop-notes"><strong>飯店走路就到,這是今天的重點。</strong>元旦清晨 6-7 點是<strong>人潮的低谷</strong>(午夜那波散了、白天那波還沒來),南參道走起來安靜,運氣好能看<strong>初日の出</strong>。參拜完抽御神籤(明治神宮是和歌籤「大御心」,沒有吉凶)、買破魔矢。<strong>手水舍的水很冰,小孩記得戴手套。</strong></div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Meiji+Jingu" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">09:00</div><div class="dur">60 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">早餐 · 回飯店整裝</div><span class="stop-type ">Hotel</span></div>
-          <div class="stop-notes">回飯店吃早餐、換衣服,行李收完寄櫃台。<strong>元旦早餐很多店沒開</strong>,飯店早餐或超商最保險。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Harajuku" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">10:30</div><div class="dur">2 hr</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">表參道 初賣 / 福袋</div><span class="stop-type shop">Shopping</span></div>
-          <div class="stop-notes"><strong>1/1 就開的</strong>:表參道 Hills、原宿 Kiddy Land、LAFORET 多半有初賣,<strong>無印良品、GAP、UNIQLO</strong> 的福袋人氣最高,開門前就排隊。<strong>但不少百貨要 1/2 才開</strong>,目標店家先查官網。買不到也沒關係,<strong>機場免稅店還有最後一輪</strong>。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Omotesando+Hills" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">12:30</div><div class="dur">30 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">午餐 · 車站周邊</div><span class="stop-type food">Lunch</span></div>
-          <div class="stop-notes"><strong>元旦開的店不多</strong>,車站大樓、購物中心、連鎖店最保險。時間不夠就買便當上車吃。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Shinjuku+Station" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop">
-        <div class="stop-time"><div class="hh">13:15</div><div class="dur">80 min</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">新宿 → 成田</div><span class="stop-type ">Transfer</span></div>
-          <div class="stop-notes">原宿搭 JR 山手線到新宿 2 分,轉 <strong>N&#39;EX 到成田約 80 分</strong>(大人 ¥3,250、兒童半價)。<strong>14:45 要到機場</strong>(起飛前 3 小時)。年末年始建議先劃位。退稅在出境前的免稅櫃台辦,<strong>護照本人要在場</strong>。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Narita+International+Airport" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="stop is-major">
-        <div class="stop-time"><div class="hh">17:45</div><div class="dur">—</div></div>
-        <div class="stop-card">
-          <div class="stop-head"><div class="stop-name">回程 CI105 · NRT → TPE</div><span class="stop-type fun">Fun</span></div>
-          <div class="stop-notes"><strong>NRT 17:45 起飛</strong>,約 21:00 前後回到桃園。登機前把零錢花掉(超商或扭蛋機),<strong>Suica 餘額留著下次用</strong>。最後補貨:白色戀人、Royce、東京芭娜娜。</div>
-          <div class="stop-actions">
-            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Narita+International+Airport" target="_blank">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              在 Google 地圖開啟
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="day-nav">
-      <button data-goto="7"><span class="nav-label">← Prev</span><span class="nav-title">12.31 大晦日跨年</span></button>
-      <button disabled class="next"><span class="nav-label">Next →</span><span class="nav-title">終點</span></button>
-    </div>
-  </div>
-
+  <div class="data-issues" id="data-issues" hidden></div>
 </section>
 
 <!-- SHOPPING -->
@@ -3012,12 +2002,12 @@
   </div>
 
   <div class="places-intro">
-    把散在每日行程與購物指南裡的<strong>店家與景點集中在這一頁</strong>,可以搜尋店名 / 地區 / 特色、用分類篩選,或切成<strong>地圖模式</strong>看分布。標<strong>「新」</strong>的是推薦優先排的。<br>
+    景點、美食、店家都在這一頁,資料來自 Google 試算表的地點庫。可以搜尋名稱、地區、特色,用分類篩選,或切成<strong>地圖模式</strong>看分布。選<strong>「還沒排」</strong>就是還沒排進任何一天的口袋名單,標<strong>「新」</strong>的是最近新增的地點。<br>
     想做成手機可導航的地圖,按下面「匯出 CSV」,到 <a href="https://www.google.com/maps/d/" target="_blank" rel="noopener">Google 我的地圖</a>「建立新地圖 → 匯入」上傳,選<strong>緯度/經度</strong>當位置、<strong>名稱</strong>當標題。
   </div>
 
   <div class="places-search">
-    <input type="text" id="places-q" placeholder="搜尋店名、地區、特色…例如:咖啡、六本松、豬排">
+    <input type="text" id="places-q" placeholder="搜尋名稱、地區、特色…例如:咖啡、淺草、溫泉">
     <div class="places-filters" id="places-filters"></div>
   </div>
 
@@ -3060,7 +2050,7 @@
   </div>
 
   <div class="packing-intro">
-    幫 <strong>2 大 + 2 小(5 歲男孩、8 歲女孩)</strong> 列好這趟的必備項目,<strong>第一類「玩雪裝備」是這趟的重點</strong>(輕井澤 0 到 -7°C),最後一類是出發前要辦完的事。勾選代表已經準備好。清單存在<strong>這台裝置的瀏覽器裡</strong>,可以自己新增或刪除項目,換裝置或清瀏覽器資料會重置。
+    幫 <strong>2 大 + 2 小</strong> 列好這趟的必備項目,<strong>「玩雪裝備」是這趟的重點</strong>(輕井澤 0 到 -7°C),「出發前要辦」是出發前要辦完的事。清單來自 Google 試算表的「行前準備」,<strong>勾選請在試算表裡做</strong>,兩支手機都會看到同一份進度。<a class="sheet-edit-link" href="#" target="_blank" rel="noopener">✎ 在試算表勾選</a>
   </div>
 
   <div class="packing-progress">
@@ -3068,17 +2058,9 @@
     <div class="bar"><div class="bar-fill" id="packing-bar" style="width:0%"></div></div>
   </div>
 
-  <form class="packing-add" id="packing-add-form">
-    <input type="text" id="packing-new-text" placeholder="新增項目,例如:兒童雨鞋" required>
-    <select id="packing-new-category"></select>
-    <button type="submit">+ 新增</button>
-  </form>
 
   <div class="packing-groups" id="packing-groups"></div>
 
-  <div class="packing-reset">
-    <button type="button" id="packing-reset-btn">全部重設為未勾選</button>
-  </div>
 </section>
 
 <footer>
@@ -3092,817 +2074,636 @@
 
 <script>
 (function(){
-  // ============ Day locations data ============
-  const DAY_DATA = {
-    1: { center:[35.74, 140.09], stops:[
-      {n:'1', name:'成田空港 CI100', sub:'13:30 抵達', lat:35.7732, lng:140.3872, type:'start'},
-      {n:'2', name:'淺草 第一段飯店', sub:'16:00 check-in', lat:35.7114, lng:139.7983},
-      {n:'3', name:'淺草寺 夜間', sub:'17:15 打燈散步', lat:35.7134, lng:139.7955},
-      {n:'4', name:'淺草 晚餐', sub:'18:45 老店', lat:35.7117, lng:139.7967, type:'end'}
-    ]},
-    2: { center:[35.60, 139.20], stops:[
-      {n:'1', name:'淺草 出發', sub:'08:00 包車', lat:35.7114, lng:139.7983, type:'start'},
-      {n:'2', name:'新倉山淺間公園', sub:'10:00 忠靈塔', lat:35.5013, lng:138.8014},
-      {n:'3', name:'忍野八海', sub:'11:30 湧泉村', lat:35.4602, lng:138.8327},
-      {n:'4', name:'河口湖 ほうとう', sub:'12:45 午餐', lat:35.4983, lng:138.7693},
-      {n:'5', name:'大石公園', sub:'14:00 湖畔富士', lat:35.5233, lng:138.7465},
-      {n:'6', name:'富士山全景纜車', sub:'15:15 展望台', lat:35.5040, lng:138.7721},
-      {n:'7', name:'回淺草', sub:'18:30 抵達', lat:35.7114, lng:139.7983, type:'end'}
-    ]},
-    3: { center:[36.35, 138.62], stops:[
-      {n:'1', name:'東京駅', sub:'09:00 北陸新幹線', lat:35.6780, lng:139.7654, type:'start'},
-      {n:'2', name:'輕井澤駅', sub:'10:20 抵達', lat:36.3432, lng:138.6368},
-      {n:'3', name:'輕井澤王子滑雪場', sub:'13:00 雪樂園', lat:36.3364, lng:138.6434},
-      {n:'4', name:'星野溫泉 蜻蜓之湯', sub:'16:30 泡湯', lat:36.3627, lng:138.5889},
-      {n:'5', name:'Harunire Terrace', sub:'18:00 晚餐', lat:36.3594, lng:138.5904, type:'end'}
-    ]},
-    4: { center:[36.35, 138.633], stops:[
-      {n:'1', name:'輕井澤 飯店', sub:'09:00 退房', lat:36.3432, lng:138.6368, type:'start'},
-      {n:'2', name:'雲場池', sub:'09:45 雪景散步', lat:36.3521, lng:138.6269},
-      {n:'3', name:'舊輕井澤銀座', sub:'10:45 老街', lat:36.3599, lng:138.6369},
-      {n:'4', name:'王子購物廣場', sub:'13:30 Outlet', lat:36.3392, lng:138.6331},
-      {n:'5', name:'輕井澤駅', sub:'17:30 回東京', lat:36.3432, lng:138.6368, type:'end'}
-    ]},
-    5: { center:[35.69, 139.75], stops:[
-      {n:'1', name:'淺草寺', sub:'09:00 白天版', lat:35.7134, lng:139.7955, type:'start'},
-      {n:'2', name:'淺草 午餐', sub:'11:30', lat:35.7117, lng:139.7967},
-      {n:'3', name:'原宿 第二段飯店', sub:'14:30 check-in', lat:35.6705, lng:139.7024},
-      {n:'4', name:'表參道 · 竹下通', sub:'15:30 逛街', lat:35.6712, lng:139.7050},
-      {n:'5', name:'原宿 晚餐', sub:'18:00', lat:35.6705, lng:139.7024, type:'end'}
-    ]},
-    6: { center:[36.60, 138.95], stops:[
-      {n:'1', name:'東京駅', sub:'07:30 上越新幹線', lat:35.6780, lng:139.7654, type:'start'},
-      {n:'2', name:'ガーラ湯沢駅', sub:'09:00 車站直結雪場', lat:36.9503, lng:138.7996},
-      {n:'3', name:'雪遊びパーク', sub:'09:45 玩雪橇', lat:36.9420, lng:138.8050},
-      {n:'4', name:'SPA GALA 溫泉', sub:'16:00 泡湯', lat:36.9503, lng:138.7996},
-      {n:'5', name:'東京駅', sub:'18:50 回東京', lat:35.6780, lng:139.7654, type:'end'}
-    ]},
-    7: { center:[35.69, 139.74], stops:[
-      {n:'1', name:'阿美橫町', sub:'10:00 年末市集', lat:35.7100, lng:139.7745, type:'start'},
-      {n:'2', name:'年越そば 午餐', sub:'12:30', lat:35.71, lng:139.777},
-      {n:'3', name:'原宿 飯店', sub:'14:30 休息', lat:35.6705, lng:139.7024},
-      {n:'4', name:'明治神宮', sub:'23:30 跨年參拜', lat:35.6748, lng:139.6996, type:'end'}
-    ]},
-    8: { center:[35.72, 140.04], stops:[
-      {n:'1', name:'明治神宮', sub:'06:30 初詣', lat:35.6748, lng:139.6996, type:'start'},
-      {n:'2', name:'原宿 飯店', sub:'09:00 整裝', lat:35.6705, lng:139.7024},
-      {n:'3', name:'表參道 初賣', sub:'10:30 福袋', lat:35.6652, lng:139.7124},
-      {n:'4', name:'新宿駅', sub:'13:15 成田特快', lat:35.6922, lng:139.6997},
-      {n:'5', name:'成田空港 CI105', sub:'17:45 起飛', lat:35.7732, lng:140.3872, type:'end'}
-    ]}
+  'use strict';
+  // ============ 資料來源：Google 試算表「東京 2026 行程」（發布到網路的 CSV） ============
+  // 規格見 docs/sheet-schema.md。改行程請改試算表，不要改這裡。
+  const SHEET_PUB = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQeQmcqtcJDO1p77kNDUjNhz_Mkr7WMFhSJgC4Y4TJ-eHyJidLCCfxeecUd_kfP2uTFcsbGZi7oLuIj/pub';
+  const SHEET_EDIT = 'https://docs.google.com/spreadsheets/d/1Jq7-UifgUQLJePztUy25uKCv3MR89Le54j93hbTb9DE/edit';
+  const GIDS = {
+    '每日':18861757, '行程':810, '景點':815, '美食':813, '店家':814,
+    '航班':801, '住宿':777001, '購物清單':806, '花費':807, '行前準備':62608399
   };
+  const CACHE_KEY = 'tokyo2026_sheet_cache_v1';
+  const SEEN_KEY = 'tokyo2026_last_seen_v1';
+  const TRIP_START = '2026/12/25';
+  const JP_AIRPORTS = {NRT:[35.7732,140.3872]}; // 只放查證過的座標
+  const JP_AIRPORT_CODES = ['NRT','HND','KIX','ITM','NGO','FUK','CTS','OKA','KMJ','OIT','KOJ','SDJ','HIJ'];
 
-  const maps = {};
+  // ---------- 小工具 ----------
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function md(s){ // 只支援 **粗體** 和換行
+    return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\r?\n/g, '<br>');
+  }
+  function parseCSV(text){
+    const rows = []; let row = [], cur = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i+1] === '"') { cur += '"'; i++; } else q = false; }
+        else cur += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(cur); cur = ''; }
+      else if (c === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; }
+      else if (c !== '\r') cur += c;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
+  function toObjects(rows){
+    if (!rows.length) return [];
+    const head = rows[0].map(h => h.trim());
+    const out = [];
+    rows.slice(1).forEach((r, i) => {
+      const o = {_row: i + 2};
+      let filled = false;
+      head.forEach((h, j) => {
+        if (!h) return;
+        const v = (r[j] == null ? '' : r[j]).trim();
+        o[h] = v;
+        if (v !== '' && v !== 'FALSE' && v !== 'TRUE') filled = true;
+      });
+      if (filled) out.push(o);
+    });
+    return out;
+  }
+  const isTrue = v => v === 'TRUE';
+  function parseDate(s){
+    const m = /^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/.exec(s || '');
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+  }
+  const sameDay = (a, b) => a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  function parseTime(s){
+    const m = /^(\d{1,2}):(\d{2})(?::\d{2})?$/.exec(s || '');
+    if (!m || +m[1] > 23 || +m[2] > 59) return null;
+    return {text: String(+m[1]).padStart(2, '0') + ':' + m[2], min: +m[1] * 60 + +m[2]};
+  }
+  function coords(o, issues, sheet){
+    if (!o['緯度'] && !o['經度']) return null;
+    const lat = parseFloat(o['緯度']), lng = parseFloat(o['經度']);
+    if (!isFinite(lat) || !isFinite(lng) || lat < 24 || lat > 46 || lng < 122 || lng > 154) {
+      issues.push(sheet + ' 第 ' + o._row + ' 列：經緯度格式不對或不在日本（' + (o['緯度'] || '空白') + ', ' + (o['經度'] || '空白') + '）');
+      return null;
+    }
+    return [lat, lng];
+  }
+  const gmap = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  const gdir = (a, b) => 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(a) + '&destination=' + encodeURIComponent(b) + '&travelmode=transit';
+  const PIN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+  // ---------- 讀取（失敗時用這支手機上次存的資料） ----------
+  function fetchSheet(name){
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 15000);
+    const url = SHEET_PUB + '?gid=' + GIDS[name] + '&single=true&output=csv&t=' + Date.now();
+    return fetch(url, {signal: ctrl.signal, cache: 'no-store'})
+      .then(r => { clearTimeout(t); if (!r.ok) throw new Error(name + ' HTTP ' + r.status); return r.text(); })
+      .then(txt => {
+        if (/^\s*<(!doctype|html)/i.test(txt)) throw new Error(name + ' 不是 CSV（試算表可能取消發布了）');
+        return [name, txt];
+      });
+  }
+  function loadAll(){
+    return Promise.all(Object.keys(GIDS).map(fetchSheet)).then(pairs => {
+      const raw = Object.fromEntries(pairs);
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ts: Date.now(), raw})); } catch(e) {}
+      return {raw, ts: Date.now(), cached: false};
+    }).catch(err => {
+      let c = null;
+      try { c = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch(e) {}
+      if (c && c.raw) return {raw: c.raw, ts: c.ts, cached: true, error: err};
+      throw err;
+    });
+  }
+
+  // ---------- 整理成每天的行程 ----------
+  const KIND_STYLE = { // 種類 → 卡片標籤顏色與預設英文小標
+    '美食': ['food','Food'], '店家': ['shop','Shopping'], '交通': ['','Transfer'],
+    '休息': ['','Rest'], '航班': ['','Flight'], '住宿': ['','Hotel']
+  };
+  const SPOT_STYLE = {
+    '寺社':['shrine','Shrine'], '溫泉':['fun','Onsen'], '博物館':['museum','Museum'], '樂園':['fun','Park'],
+    '玩雪':['park','Snow'], '休息':['','Rest'], '景點':['park','Sight']
+  };
+  const PLACE_CAT = { // 地點類型 → 口袋名單分類
+    '咖啡':'cafe', '麵包甜點':'bread', '餐廳':'food', '居酒屋・屋台':'izakaya',
+    '玩具童裝':'kids', '市場':'market'
+  };
+  const WEEK = ['日','月','火','水','木','金','土'];
+  const EN_NUM = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen'];
+  const JP_MONTH = ['睦月','如月','弥生','卯月','皐月','水無月','文月','葉月','長月','神無月','霜月','師走'];
+  function jpDay(n){
+    if (n === 1) return '元日';
+    const d = ['','一','二','三','四','五','六','七','八','九'];
+    if (n < 10) return d[n] + '日';
+    if (n === 10) return '十日';
+    if (n < 20) return '十' + d[n - 10] + '日';
+    if (n === 20) return '二十日';
+    if (n < 30) return '廿' + d[n - 20] + '日';
+    if (n === 30) return '三十日';
+    return '卅' + d[n - 30] + '日';
+  }
+
+  function buildModel(raw){
+    const S = {}; Object.keys(raw).forEach(k => { S[k] = toObjects(parseCSV(raw[k] || '')); });
+    const issues = [];
+
+    // 地點庫
+    const places = new Map();
+    [['景點','spot'],['美食','food'],['店家','shop']].forEach(([sheet, kind]) => {
+      (S[sheet] || []).forEach(o => {
+        const name = o['名稱'];
+        if (!name) { issues.push(sheet + ' 第 ' + o._row + ' 列：缺少名稱'); return; }
+        if (places.has(name)) { issues.push(sheet + ' 第 ' + o._row + ' 列：名稱「' + name + '」和其他地點重複'); return; }
+        places.set(name, {sheet, kind, o, ll: coords(o, issues, sheet), refs: []});
+      });
+    });
+
+    // 天
+    const start = parseDate(TRIP_START);
+    const dayInfo = new Map();
+    (S['每日'] || []).forEach(o => {
+      const n = parseInt(o['天'], 10);
+      if (!n) { issues.push('每日 第 ' + o._row + ' 列：「天」要填數字'); return; }
+      dayInfo.set(n, o);
+    });
+    const nums = new Set(dayInfo.keys());
+    (S['行程'] || []).forEach(o => { const n = parseInt(o['天'], 10); if (n > 0) nums.add(n); });
+    if (!nums.size) for (let i = 1; i <= 8; i++) nums.add(i);
+    const days = [...nums].sort((a, b) => a - b).map(n => {
+      const o = dayInfo.get(n) || {};
+      let date = parseDate(o['日期']);
+      if (o['日期'] && !date) issues.push('每日 第 ' + o._row + ' 列：日期格式要是 YYYY/MM/DD');
+      if (!date) date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + n - 1);
+      return {n, date, o, items: []};
+    });
+    const dayByNum = new Map(days.map(d => [d.n, d]));
+
+    // 行程
+    (S['行程'] || []).forEach(o => {
+      const n = parseInt(o['天'], 10);
+      const day = dayByNum.get(n);
+      if (!day) { issues.push('行程 第 ' + o._row + ' 列：「天」要填 1–' + days.length + ' 的數字'); return; }
+      const t = parseTime(o['時間']);
+      if (o['時間'] && !t) issues.push('行程 第 ' + o._row + ' 列：時間「' + o['時間'] + '」格式要是 HH:MM');
+      let place = null;
+      if (o['地點']) {
+        place = places.get(o['地點']);
+        if (!place) issues.push('行程 第 ' + o._row + ' 列：地點「' + o['地點'] + '」不在景點、美食、店家三張表裡');
+        else place.refs.push(n);
+      }
+      if (!o['標題'] && !o['地點']) issues.push('行程 第 ' + o._row + ' 列：標題和地點至少要填一個');
+      day.items.push({src: 'plan', o, t, place, kind: o['種類'] || (place ? {spot:'景點',food:'美食',shop:'店家'}[place.kind] : '景點')});
+    });
+
+    // 航班
+    (S['航班'] || []).forEach(o => {
+      const d = parseDate(o['日期']);
+      if (!d) { issues.push('航班 第 ' + o._row + ' 列：日期格式要是 YYYY/MM/DD'); return; }
+      const day = days.find(x => sameDay(x.date, d));
+      if (!day) return;
+      const from = (o['出發機場'] || '').toUpperCase(), to = (o['抵達機場'] || '').toUpperCase();
+      const leaving = JP_AIRPORT_CODES.includes(from);
+      const t = parseTime(leaving ? o['起飛時間'] : (o['抵達時間'] || o['起飛時間']));
+      const ap = leaving ? from : to;
+      day.items.push({src: 'flight', o, t, kind: '航班',
+        title: (leaving ? '起飛 · ' : '抵達 · ') + (o['航班號'] || '') + (from && to ? '（' + from + ' → ' + to + '）' : ''),
+        ll: JP_AIRPORTS[ap] || null, mapQ: ap ? ap + ' Airport' : ''});
+    });
+
+    // 住宿
+    const stays = (S['住宿'] || []).map(o => {
+      const a = parseDate(o['入住日']), b = parseDate(o['退房日']);
+      if (!a || !b) issues.push('住宿 第 ' + o._row + ' 列：入住日、退房日格式要是 YYYY/MM/DD');
+      return {o, a, b, label: (o['名稱'] && !/待補/.test(o['名稱'])) ? o['名稱'] : (o['區域'] || o['名稱'] || '住宿'), ll: coords(o, issues, '住宿')};
+    }).filter(s => s.a && s.b);
+    stays.forEach(s => {
+      days.forEach(day => {
+        const base = {src: 'stay', o: s.o, kind: '住宿', ll: s.ll, mapQ: s.o['地圖搜尋'] || ''};
+        if (sameDay(day.date, s.a)) day.items.push(Object.assign({}, base, {t: parseTime(s.o['Check-in']), title: '入住 · ' + s.label, notes: s.o['備註']}));
+        if (sameDay(day.date, s.b)) day.items.push(Object.assign({}, base, {t: parseTime(s.o['Check-out']), title: '退房 · ' + s.label, notes: ''}));
+      });
+    });
+    days.forEach(day => { // 當晚住哪裡：入住日 ≤ 當天 < 退房日，重疊時取入住日較晚的
+      const cand = stays.filter(s => s.a <= day.date && day.date < s.b).sort((x, y) => y.a - x.a);
+      day.stay = day.o['住宿'] || (cand[0] ? cand[0].label : '');
+      day.items.forEach((it, i) => { it._i = i; });
+      day.items.sort((x, y) => ((x.t ? x.t.min : 9999) - (y.t ? y.t.min : 9999)) || (x._i - y._i));
+    });
+
+    // 行前準備
+    const packing = (S['行前準備'] || []).filter(o => o['項目']).map(o => ({
+      category: o['分類'] || '其他', text: o['項目'], note: o['說明'] || '', owner: o['負責人'] || '', checked: isTrue(o['完成'])
+    }));
+
+    return {days, places, packing, issues};
+  }
+
+  // ---------- 畫每日行程 ----------
+  const maps = {}, mapStops = {};
+  function cardHtml(it, day){
+    const o = it.o, p = it.place, po = p ? p.o : {};
+    let cls, label;
+    if (it.kind === '景點' && p && p.sheet === '景點') [cls, label] = SPOT_STYLE[po['類型']] || SPOT_STYLE['景點'];
+    else if (it.kind === '景點') [cls, label] = SPOT_STYLE['景點'];
+    else [cls, label] = KIND_STYLE[it.kind] || ['', 'Plan'];
+    if (o['英文小標'] && it.src === 'plan') label = o['英文小標'];
+    const title = it.src === 'plan' ? (o['標題'] || o['地點']) : it.title;
+    const notes = it.src === 'plan' ? o['說明'] : (it.src === 'flight' ? o['備註'] : it.notes);
+
+    const badges = [];
+    if (it.src === 'plan' && o['狀態'] && o['狀態'] !== '已定' ) badges.push('<span class="stop-badge s-' + esc(o['狀態']) + '">' + esc(o['狀態']) + '</span>');
+    if (it.src !== 'plan' && o['狀態'] === '已訂') badges.push('<span class="stop-badge s-已訂">已訂</span>');
+    if (o['預約'] === '要預約') badges.push('<span class="stop-badge s-要預約">要預約</span>');
+    if (o['預約'] === '已預約') badges.push('<span class="stop-badge s-已訂">已預約</span>');
+
+    const meta = [];
+    if (o['交通方式'] || o['從'] || o['到']) meta.push(esc([o['交通方式'], [o['從'], o['到']].filter(Boolean).join(' → ')].filter(Boolean).join(' · ')));
+    if (o['費用']) meta.push(esc(o['費用']));
+    if (p) {
+      if (po['營業時間']) meta.push('營業 ' + esc(po['營業時間']));
+      if (po['門票']) meta.push('門票 ' + esc(po['門票']));
+      const m = day.date.getMonth() + 1, dd = day.date.getDate();
+      const yearEnd = (m === 12 && dd >= 29) || (m === 1 && dd <= 3);
+      if (yearEnd && po['年末營業']) meta.push('<span class="warn">年末 ' + esc(po['年末營業']) + '</span>');
+      else if (yearEnd && (p.sheet === '美食' || p.sheet === '店家')) meta.push('<span class="warn">年末營業待確認</span>');
+      if (!p.ll) meta.push('<span class="warn">待確認位置</span>');
+    }
+
+    let btn = '';
+    if (p) btn = '<a class="map-btn" href="' + gmap(po['地圖搜尋'] || po['名稱']) + '" target="_blank" rel="noopener">' + PIN_SVG + '在 Google 地圖開啟</a>';
+    else if (it.mapQ) btn = '<a class="map-btn" href="' + gmap(it.mapQ) + '" target="_blank" rel="noopener">' + PIN_SVG + '在 Google 地圖開啟</a>';
+    else if (o['從'] && o['到']) btn = '<a class="map-btn" href="' + gdir(o['從'], o['到']) + '" target="_blank" rel="noopener">' + PIN_SVG + '查大眾運輸路線</a>';
+
+    return '<div class="stop' + (isTrue(o['重點']) ? ' is-major' : '') + '">' +
+      '<div class="stop-time"><div class="hh">' + (it.t ? it.t.text : '未定') + '</div><div class="dur">' + esc(it.src === 'plan' ? (o['停留'] || '') : '') + '</div></div>' +
+      '<div class="stop-card">' +
+        '<div class="stop-head"><div class="stop-name">' + esc(title) + badges.join('') + '</div><span class="stop-type ' + cls + '">' + esc(label) + '</span></div>' +
+        (notes ? '<div class="stop-notes">' + md(notes) + '</div>' : '') +
+        (meta.length ? '<div class="stop-meta">' + meta.join('<span class="sep">·</span>') + '</div>' : '') +
+        (btn ? '<div class="stop-actions">' + btn + '</div>' : '') +
+      '</div></div>';
+  }
+
+  function renderDays(model){
+    const nav = document.getElementById('tab-nav');
+    const box = document.getElementById('days-container');
+    const D = model.days;
+    nav.innerHTML = D.map((d, i) => {
+      const mmdd = (d.date.getMonth() + 1) + '.' + d.date.getDate();
+      return '<button class="tab-btn' + (i === 0 ? ' is-active' : '') + '" data-day="' + d.n + '" role="tab" aria-selected="' + (i === 0) + '">' +
+        '<span class="tab-day-num">Day ' + d.n + '</span><span class="tab-date">' + mmdd + '</span>' +
+        '<span class="tab-label">' + WEEK[d.date.getDay()] + (d.o['副標'] ? ' · ' + esc(d.o['副標']) : '') + '</span></button>';
+    }).join('');
+
+    box.innerHTML = D.map((d, i) => {
+      const m = d.date.getMonth() + 1, dd = d.date.getDate();
+      const mm = String(m).padStart(2, '0') + '.' + String(dd).padStart(2, '0');
+      const stops = [];
+      d.items.forEach(it => {
+        const ll = it.place ? it.place.ll : it.ll;
+        if (!ll) return;
+        const title = it.src === 'plan' ? (it.o['標題'] || it.o['地點']) : it.title;
+        stops.push({name: title, sub: (it.t ? it.t.text : ''), lat: ll[0], lng: ll[1]});
+      });
+      stops.forEach((s, k) => { s.n = k + 1; s.type = k === 0 ? 'start' : (k === stops.length - 1 ? 'end' : ''); });
+      mapStops[d.n] = stops;
+      const prev = D[i - 1], next = D[i + 1];
+      const navTitle = x => (x.date.getMonth() + 1) + '.' + x.date.getDate() + ' ' + esc(x.o['標題'] || ('Day ' + x.n));
+      return '<div class="day' + (i === 0 ? ' is-active' : '') + '" id="day' + d.n + '" data-day-id="' + d.n + '">' +
+        '<div class="day-header">' +
+          '<div class="day-number"><span class="day-label">Day ' + (EN_NUM[d.n] || d.n) + '</span>' +
+            '<span class="day-big">' + String(d.n).padStart(2, '0') + '</span>' +
+            '<span class="day-of-week">' + WEEK[d.date.getDay()] + '曜日' + (d.o['副標'] ? ' · ' + esc(d.o['副標']) : '') + '</span></div>' +
+          '<div class="day-title"><h3>' + esc(d.o['標題'] || ('Day ' + d.n)) + '</h3>' +
+            (d.o['簡介'] ? '<p class="narrative">' + md(d.o['簡介']) + '</p>' : '') +
+            (d.stay ? '<p class="day-stay">今晚住:' + esc(d.stay) + '</p>' : '') + '</div>' +
+          '<div class="day-date"><div class="date-mm">' + mm + '</div><div class="date-jp">' + JP_MONTH[m - 1] + jpDay(dd) + '</div></div>' +
+        '</div>' +
+        (stops.length ? '<div class="day-map-wrap"><div class="day-map" id="map-day' + d.n + '" aria-label="Day ' + d.n + ' map"></div>' +
+          '<div class="day-map-legend"><span class="dot">景點順序</span><span class="line">大致路線</span><span class="meta">點擊圖標查看詳情</span></div></div>' : '') +
+        '<div class="timeline">' + (d.items.length ? d.items.map(it => cardHtml(it, d)).join('') : '<div class="days-empty">這天還沒有安排,到試算表的「行程」加一列吧。</div>') + '</div>' +
+        '<div class="day-nav">' +
+          (prev ? '<button data-goto="' + prev.n + '"><span class="nav-label">← Prev</span><span class="nav-title">' + navTitle(prev) + '</span></button>'
+                : '<button disabled><span class="nav-label">← Prev</span><span class="nav-title">起點</span></button>') +
+          (next ? '<button class="next" data-goto="' + next.n + '"><span class="nav-label">Next →</span><span class="nav-title">' + navTitle(next) + '</span></button>'
+                : '<button disabled class="next"><span class="nav-label">Next →</span><span class="nav-title">終點</span></button>') +
+        '</div></div>';
+    }).join('');
+
+    const issuesEl = document.getElementById('data-issues');
+    if (model.issues.length) {
+      issuesEl.innerHTML = '<details><summary>資料問題(' + model.issues.length + ')· 這些列被跳過或少了資訊,請到試算表修正</summary><ul>' +
+        model.issues.map(s => '<li>' + esc(s) + '</li>').join('') + '</ul></details>';
+      issuesEl.hidden = false;
+    } else issuesEl.hidden = true;
+  }
 
   function initMap(dayId){
     if (maps[dayId] || typeof L === 'undefined') return;
-    const data = DAY_DATA[dayId];
-    if (!data) return;
-    const containerId = 'map-day' + dayId;
-    const el = document.getElementById(containerId);
-    if (!el) return;
-
-    const map = L.map(containerId, {
-      scrollWheelZoom: false,
-      zoomControl: true,
-      attributionControl: true,
-    }).setView(data.center, 13);
-
-    // Soft paper-friendly tiles
+    const stops = mapStops[dayId];
+    const el = document.getElementById('map-day' + dayId);
+    if (!stops || !stops.length || !el) return;
+    const map = L.map(el, {scrollWheelZoom: false, zoomControl: true, attributionControl: true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19,
+      subdomains: 'abcd', maxZoom: 19
     }).addTo(map);
-
-    const latlngs = [];
-    data.stops.forEach(stop => {
-      const cls = stop.type === 'start' ? 'pin start' : (stop.type === 'end' ? 'pin end' : 'pin');
-      const icon = L.divIcon({
-        className: 'pin-wrap',
-        html: `<div class="${cls}"><span>${stop.n}</span></div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32],
-      });
-      const marker = L.marker([stop.lat, stop.lng], {icon}).addTo(map);
-      marker.bindPopup(`<b>${stop.name}</b><small>${stop.sub}</small>`);
-      latlngs.push([stop.lat, stop.lng]);
+    const latlngs = stops.map(s => {
+      const icon = L.divIcon({className: 'pin-wrap', html: '<div class="pin ' + s.type + '"><span>' + s.n + '</span></div>',
+        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]});
+      L.marker([s.lat, s.lng], {icon}).addTo(map).bindPopup('<b>' + esc(s.name) + '</b><small>' + esc(s.sub) + '</small>');
+      return [s.lat, s.lng];
     });
-
-    // Dashed route line between stops
-    if (latlngs.length > 1) {
-      L.polyline(latlngs, {
-        color: '#c1432b',
-        weight: 2.5,
-        opacity: 0.8,
-        dashArray: '6, 8',
-      }).addTo(map);
-      map.fitBounds(latlngs, {padding: [40, 40], maxZoom: 14});
-    } else {
-      map.setView(latlngs[0], 14);
-    }
-
+    if (latlngs.length > 1) L.polyline(latlngs, {color: '#c1432b', weight: 2.5, opacity: 0.8, dashArray: '6, 8'}).addTo(map);
     maps[dayId] = map;
+    fitMap(dayId);
+  }
+  function fitMap(dayId){
+    const m = maps[dayId], stops = mapStops[dayId];
+    if (!m || !stops || !stops.length) return;
+    m.invalidateSize();
+    if (stops.length > 1) m.fitBounds(stops.map(s => [s.lat, s.lng]), {padding: [40, 40], maxZoom: 14});
+    else m.setView([stops[0].lat, stops[0].lng], 14);
   }
 
-  // ============ Tab switching ============
-  const tabs = document.querySelectorAll('.tab-btn');
-  const days = document.querySelectorAll('.day');
-  const tabNav = document.querySelector('.tab-nav');
+  // ---------- 切換天數 / 頁面 ----------
   const daysSection = document.querySelector('.days');
-
   function show(dayId, scroll){
     dayId = String(dayId);
-    tabs.forEach(t => {
-      const active = t.dataset.day === dayId;
-      t.classList.toggle('is-active', active);
-      t.setAttribute('aria-selected', active);
+    document.querySelectorAll('.tab-btn').forEach(t => {
+      const a = t.dataset.day === dayId; t.classList.toggle('is-active', a); t.setAttribute('aria-selected', a);
     });
-    days.forEach(d => {
-      d.classList.toggle('is-active', d.dataset.dayId === dayId);
-    });
-
+    document.querySelectorAll('.day').forEach(d => d.classList.toggle('is-active', d.dataset.dayId === dayId));
     history.replaceState(null, '', '#day' + dayId);
-
-    // initialize the map for this day (lazy) and fix sizing
     initMap(dayId);
-    setTimeout(() => {
-      const m = maps[dayId];
-      if (m) {
-        m.invalidateSize();
-        const data = DAY_DATA[dayId];
-        if (data && data.stops.length > 1) {
-          m.fitBounds(data.stops.map(s => [s.lat, s.lng]), {padding:[40,40], maxZoom:14});
-        } else if (data) {
-          m.setView([data.stops[0].lat, data.stops[0].lng], 14);
-        }
-      }
-    }, 60);
-
-    const activeTab = document.querySelector('.tab-btn.is-active');
-    if (activeTab) {
-      activeTab.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-    }
-
-    if (scroll && daysSection){
-      const targetY = daysSection.getBoundingClientRect().top + window.pageYOffset - 8;
-      window.scrollTo({top: targetY, behavior:'smooth'});
-    }
+    setTimeout(() => fitMap(dayId), 60);
+    const at = document.querySelector('.tab-btn.is-active');
+    if (at) at.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+    if (scroll && daysSection) window.scrollTo({top: daysSection.getBoundingClientRect().top + window.pageYOffset - 8, behavior: 'smooth'});
+  }
+  function bindDays(){
+    const tabNav = document.getElementById('tab-nav');
+    tabNav.addEventListener('click', e => { const b = e.target.closest('.tab-btn'); if (b) show(b.dataset.day, false); });
+    document.getElementById('days-container').addEventListener('click', e => {
+      const b = e.target.closest('.day-nav button[data-goto]'); if (b) show(b.dataset.goto, true);
+    });
+    tabNav.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      const all = [...document.querySelectorAll('.tab-btn')];
+      const idx = all.indexOf(document.querySelector('.tab-btn.is-active'));
+      const n = all[Math.max(0, Math.min(all.length - 1, idx + (e.key === 'ArrowRight' ? 1 : -1)))];
+      show(n.dataset.day, false); n.focus();
+    });
+    let sx = 0, sy = 0, tgt = null;
+    daysSection.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; tgt = e.target; }, {passive: true});
+    daysSection.addEventListener('touchend', e => {
+      if (tgt && tgt.closest('.day-map-wrap, .tab-nav')) return;
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) < 60 || Math.abs(dy) > 50) return;
+      const all = [...document.querySelectorAll('.tab-btn')];
+      const idx = all.indexOf(document.querySelector('.tab-btn.is-active'));
+      const n = all[idx + (dx < 0 ? 1 : -1)];
+      if (n) show(n.dataset.day, false);
+    }, {passive: true});
   }
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => show(tab.dataset.day, false));
-  });
-
-  document.querySelectorAll('.day-nav button[data-goto]').forEach(btn => {
-    btn.addEventListener('click', () => show(btn.dataset.goto, true));
-  });
-
-  tabNav.addEventListener('keydown', (e) => {
-    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-    const current = document.querySelector('.tab-btn.is-active');
-    if (!current) return;
-    const all = Array.from(tabs);
-    const idx = all.indexOf(current);
-    const nextIdx = e.key === 'ArrowRight'
-      ? Math.min(idx + 1, all.length - 1)
-      : Math.max(idx - 1, 0);
-    show(all[nextIdx].dataset.day, false);
-    all[nextIdx].focus();
-  });
-
-  // Touch swipe between days
-  let touchStartX = 0, touchStartY = 0, touchTarget = null;
-  daysSection.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    touchTarget = e.target;
-  }, {passive: true});
-  daysSection.addEventListener('touchend', (e) => {
-    // Ignore swipes that started inside the map (Leaflet handles those)
-    if (touchTarget && touchTarget.closest('.day-map-wrap')) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) < 60 || Math.abs(dy) > 50) return;
-    const current = parseInt(document.querySelector('.tab-btn.is-active').dataset.day, 10);
-    const target = dx < 0 ? Math.min(current + 1, 7) : Math.max(current - 1, 1);
-    if (target !== current) show(target, false);
-  }, {passive: true});
-
-  // ============ View (top-level) switching ============
   const VALID_VIEWS = ['home','notes','days','shopping','transport','places','packing'];
-  const navButtons = document.querySelectorAll('.nav-item, .pill-item');
-  const views = document.querySelectorAll('section.view');
-
   function showView(viewId, scroll){
     if (!VALID_VIEWS.includes(viewId)) viewId = 'home';
-    views.forEach(v => v.classList.toggle('is-active', v.dataset.view === viewId));
-    navButtons.forEach(b => b.classList.toggle('is-active', b.dataset.view === viewId));
+    document.querySelectorAll('section.view').forEach(v => v.classList.toggle('is-active', v.dataset.view === viewId));
+    document.querySelectorAll('.nav-item, .pill-item').forEach(b => b.classList.toggle('is-active', b.dataset.view === viewId));
     if (viewId === 'days') {
-      const activeDay = document.querySelector('.tab-btn.is-active');
-      const dayId = activeDay ? activeDay.dataset.day : '1';
+      const a = document.querySelector('.tab-btn.is-active');
+      const dayId = a ? a.dataset.day : '1';
       history.replaceState(null, '', '#day' + dayId);
-      initMap(dayId);
-      setTimeout(() => { const m = maps[dayId]; if (m) m.invalidateSize(); }, 80);
-    } else {
-      history.replaceState(null, '', '#' + viewId);
-    }
-    if (scroll) window.scrollTo({top:0, behavior:'smooth'});
+      initMap(dayId); setTimeout(() => fitMap(dayId), 80);
+    } else history.replaceState(null, '', '#' + viewId);
+    if (viewId === 'places' && window.__placesShown) window.__placesShown();
+    if (scroll) window.scrollTo({top: 0, behavior: 'smooth'});
   }
+  document.querySelectorAll('.nav-item, .pill-item').forEach(b => b.addEventListener('click', () => showView(b.dataset.view, true)));
 
-  navButtons.forEach(btn => {
-    btn.addEventListener('click', () => showView(btn.dataset.view, true));
-  });
+  // ---------- 口袋名單 ----------
+  function initPlaces(model){
+    const CATS = [['all','全部'], ['pocket','還沒排'], ['spot','景點'], ['food','餐廳'], ['cafe','咖啡'], ['bread','麵包甜點'],
+      ['izakaya','居酒屋・屋台'], ['shop','選物・購物'], ['kids','玩具・童裝'], ['market','市場']];
+    const CAT_LABEL = Object.fromEntries(CATS);
+    const CAT_COLOR = {cafe:'#8a6427', bread:'#96702c', food:'#c1432b', izakaya:'#6f4a8a', kids:'#c94f7c', shop:'#2d4a7c', market:'#5a6b3a', spot:'#0f7b6c'};
+    let lastSeen = 0;
+    try { lastSeen = parseInt(localStorage.getItem(SEEN_KEY) || '0', 10); localStorage.setItem(SEEN_KEY, String(Date.now())); } catch(e) {}
+    const newSince = lastSeen || (Date.now() - 7 * 86400000);
+    const PLACES = [...model.places.values()].map(p => {
+      const o = p.o, refs = [...new Set(p.refs)].sort((a, b) => a - b);
+      const added = parseDate(o['新增日期']);
+      return {
+        n: o['名稱'], c: p.kind === 'spot' ? 'spot' : (PLACE_CAT[o['類型']] || (p.kind === 'food' ? 'food' : 'shop')),
+        type: o['類型'] || '', area: o['地區'] || '', hours: o['營業時間'] || '',
+        day: refs.length ? refs.map(n => 'Day ' + n).join(' · ') : (o['適合哪天'] ? '建議 ' + o['適合哪天'] : '還沒排'),
+        scheduled: refs.length > 0, note: o['說明'] || '', addr: o['地址'] || '', map: o['地圖搜尋'] || o['名稱'],
+        lat: p.ll ? p.ll[0] : null, lng: p.ll ? p.ll[1] : null, link: o['參考連結'] || '',
+        by: o['提議者'] || '', isNew: !!(added && added.getTime() + 86400000 > newSince)
+      };
+    });
 
-  // ============ Boot ============
-  function boot(){
-    const hash = window.location.hash;
-    const dayMatch = hash.match(/^#day(\d+)$/);
-    if (dayMatch) {
-      showView('days', false);
-      show(dayMatch[1], false);
-    } else {
-      const v = hash.replace('#','');
-      const startView = VALID_VIEWS.includes(v) ? v : 'home';
-      showView(startView, false);
-    }
-  }
-
-  if (typeof L !== 'undefined') {
-    boot();
-  } else {
-    // Leaflet loads with defer, wait for it
-    window.addEventListener('load', boot);
-  }
-})();
-</script>
-
-<script>
-(function(){
-  // ============ Pocket list of every named place ============
-  const CATS = [
-    ['all','全部'], ['cafe','咖啡'], ['bread','麵包甜點'], ['food','餐廳'],
-    ['izakaya','居酒屋・屋台'], ['kids','玩具・童裝'], ['shop','選物・購物'],
-    ['market','市場・直賣所'], ['spot','景點']
-  ];
-
-  // n=名稱 c=分類 area=地區 hours=營業時間 day=排定 note=備註 addr=地址 map=Google搜尋字串 lat/lng=座標
-  const PLACES = [
-    {n:'ほうとう不動 東恋路店', c:'food', area:'河口湖', hours:'11:00-20:00', day:'Day 2 午餐', note:'白色曲線建築的名店,山梨名物南瓜味噌寬麵鍋,冬天吃最暖,不辣小孩好入口。', addr:'山梨県南都留郡富士河口湖町船津', map:'Houtou+Fudou+Higashikoiji', lat:35.4904, lng:138.7658, isNew:true},
-    {n:'河口湖自然生活館', c:'shop', area:'河口湖 大石公園', hours:'09:00-17:45', day:'Day 2', note:'大石公園旁的室內館,藍莓霜淇淋與果醬,冷了可以躲進去。', addr:'山梨県南都留郡富士河口湖町大石2585', map:'Kawaguchiko+Natural+Living+Center', lat:35.524, lng:138.739},
-    {n:'川上庵 本店', c:'food', area:'輕井澤 舊輕井澤', hours:'11:00-21:00', day:'Day 3-4', note:'輕井澤最有名的手打蕎麥麵,店內木造挑高,冬天供應溫蕎麥。', addr:'長野県北佐久郡軽井沢町軽井沢6-10', map:'Kawakamian+Karuizawa', lat:36.356, lng:138.635, isNew:true},
-    {n:'Sawamura 麵包', c:'food', area:'輕井澤 星野區', hours:'07:00-21:00', day:'Day 3', note:'Harunire Terrace 裡的人氣麵包店,附設餐廳,早餐或外帶都方便。', addr:'長野県北佐久郡軽井沢町長倉', map:'Sawamura+Harunire+Terrace', lat:36.4034, lng:138.5996, isNew:true},
-    {n:'星野溫泉 蜻蜓之湯', c:'spot', area:'輕井澤 星野區', hours:'10:00-22:00', day:'Day 3', note:'玩完雪泡湯的首選,大人 ¥1,350 / 小學生 ¥800,露天風呂在林子裡。', addr:'長野県北佐久郡軽井沢町星野', map:'Hoshino+Onsen+Tombo+no+Yu', lat:36.4031, lng:138.6002, isNew:true},
-    {n:'腸詰屋 舊輕井澤', c:'food', area:'輕井澤 舊輕銀座', hours:'10:00-18:00', day:'Day 4', note:'德式香腸老店,可現場吃也可買真空包當伴手禮。', addr:'長野県北佐久郡軽井沢町軽井沢', map:'Chozumeya+Karuizawa', lat:36.3576, lng:138.6353},
-    {n:'澤屋果醬 舊輕井澤', c:'shop', area:'輕井澤 舊輕銀座', hours:'10:00-18:00', day:'Day 4', note:'輕井澤代表伴手禮,無添加果醬,草莓與藍莓最熱銷。', addr:'長野県北佐久郡軽井沢町軽井沢746-1', map:'Sawaya+Jam+Karuizawa', lat:36.357, lng:138.635},
-    {n:'Mikado Coffee 舊輕井澤', c:'cafe', area:'輕井澤 舊輕銀座', hours:'10:00-18:00', day:'Day 4', note:'招牌摩卡霜淇淋,冬天也賣,小孩會喜歡。', addr:'長野県北佐久郡軽井沢町軽井沢786-2', map:'Mikado+Coffee+Karuizawa', lat:36.3574, lng:138.6348},
-    {n:'輕井澤王子購物廣場', c:'shop', area:'輕井澤駅 南口', hours:'10:00-19:00', day:'Day 4', note:'約 200 家店的大型 Outlet,戶外品牌與童裝最划算,車站走路 3 分。', addr:'長野県北佐久郡軽井沢町軽井沢', map:'Karuizawa+Prince+Shopping+Plaza', lat:36.3395, lng:138.6368, isNew:true},
-    {n:'輕井澤王子滑雪場', c:'spot', area:'輕井澤駅 南口', hours:'08:30-17:00', day:'Day 3-4', note:'車站旁的滑雪場,小學生以下纜車免費,雪樂園含雪橇約 ¥2,300-3,000。', addr:'長野県北佐久郡軽井沢町軽井沢', map:'Karuizawa+Prince+Hotel+Ski+Resort', lat:36.3404, lng:138.6329, isNew:true},
-    {n:'大黑家天婦羅', c:'food', area:'淺草', hours:'11:00-20:00', day:'Day 5', note:'明治創業的江戶前炸蝦丼,黑色醬汁是招牌,人多要排隊。', addr:'東京都台東区浅草1-38-10', map:'Daikokuya+Tempura+Asakusa', lat:35.714, lng:139.7955},
-    {n:'淺草花屋敷', c:'spot', area:'淺草', hours:'10:00-18:00', day:'Day 5 可加', note:'日本最古老的遊樂園,小型設施適合 5-8 歲,入園 ¥1,200。', addr:'東京都台東区浅草2-28-1', map:'Asakusa+Hanayashiki', lat:35.7154, lng:139.7944},
-    {n:'墨田水族館', c:'spot', area:'晴空塔 Solamachi', hours:'10:00-20:00', day:'Day 5', note:'晴空塔樓下的室內水族館,企鵝與金魚區,冬天躲冷的好去處。', addr:'東京都墨田区押上1-1-2', map:'Sumida+Aquarium', lat:35.71, lng:139.8094, isNew:true},
-    {n:'東京駅一番街', c:'shop', area:'東京駅 B1', hours:'10:00-20:30', day:'Day 1 / Day 8', note:'角色商店街 + 拉麵街 + 零食樂園,下雪天完全不受影響。', addr:'東京都千代田区丸の内1-9-1', map:'Tokyo+Station+Ichibangai', lat:35.6812, lng:139.7671, isNew:true},
-    {n:'阿美橫町', c:'shop', area:'上野', hours:'10:00-20:00', day:'Day 7', note:'年末市集最熱鬧,海鮮年貨乾貨一路喊賣,人非常多要牽好小孩。', addr:'東京都台東区上野6', map:'Ameyoko+Ueno', lat:35.7085, lng:139.7745, isNew:true},
-    {n:'國立科學博物館', c:'spot', area:'上野公園', hours:'09:00-17:00', day:'Day 6 方案 B', note:'恐龍骨與地球館,高中以下免費,室內暖和可待一整天。年末多半休館要先查。', addr:'東京都台東区上野公園7-20', map:'National+Museum+of+Nature+and+Science+Tokyo', lat:35.7163, lng:139.776},
-    {n:'上野動物園', c:'spot', area:'上野公園', hours:'09:30-17:00', day:'Day 6 方案 B', note:'有熊貓,大人 ¥600、國中以下免費。年末休館日要先確認。', addr:'東京都台東区上野公園9-83', map:'Ueno+Zoo', lat:35.7167, lng:139.7714},
-    {n:'teamLab Planets 豐洲', c:'spot', area:'豐洲', hours:'09:00-22:00', day:'Day 6 方案 C', note:'光影互動展,完全室內,須線上預約時段票,部分展區要赤腳涉水。', addr:'東京都江東区豊洲6-1-16', map:'teamLab+Planets+Toyosu', lat:35.6497, lng:139.7906, isNew:true},
-    {n:'增上寺', c:'spot', area:'芝公園', hours:'全天(境內)', day:'Day 7 跨年', note:'東京鐵塔前的大寺,除夜之鐘與倒數氣球,戶外極冷極擠。', addr:'東京都港区芝公園4-7-35', map:'Zojoji+Temple', lat:35.6574, lng:139.7485},
-    {n:'根津神社', c:'spot', area:'谷根千', hours:'06:00-17:00', day:'Day 8 初詣', note:'小而美的神社,有迷你千本鳥居,元旦人潮比明治神宮少非常多。', addr:'東京都文京区根津1-28-9', map:'Nezu+Shrine', lat:35.72, lng:139.76, isNew:true},
-    {n:'丸之內仲通', c:'spot', area:'東京駅 丸之內口', hours:'全天', day:'Day 1', note:'整排香檳金耶誕燈飾,免費好拍,推車好走,12/25 仍在點燈。', addr:'東京都千代田区丸の内2', map:'Marunouchi+Naka+Dori', lat:35.6793, lng:139.7637, isNew:true},
-    {n:'mont-bell 御徒町店', c:'shop', area:'御徒町', hours:'11:00-20:00', day:'出發前補貨', note:'戶外品牌旗艦,童裝雪褲與防水手套齊全,比台灣便宜。', addr:'東京都台東区上野5-10-10', map:'montbell+Okachimachi', lat:35.707, lng:139.774}
-  ];
-
-  const gridEl = document.getElementById('places-grid');
-  if (gridEl) {
+    const gridEl = document.getElementById('places-grid');
     const qEl = document.getElementById('places-q');
     const filtersEl = document.getElementById('places-filters');
     const countEl = document.getElementById('places-count');
     const mapWrapEl = document.getElementById('places-map-wrap');
     const csvBtn = document.getElementById('places-csv');
     const modeBtns = document.querySelectorAll('.pv-mode');
-    let activeCat = 'all';
-    let mode = 'list';
-    let placesMap = null;
-    let markerLayer = null;
-    let userPos = null;          // {lat, lng, acc}
-    let watchId = null;
-    let sortByDist = false;
-    let userMarker = null, userCircle = null;
     const locateBtn = document.getElementById('places-locate');
     const sortBtn = document.getElementById('places-sort');
     const geoMsgEl = document.getElementById('places-geo-msg');
-
-    const CAT_LABEL = Object.fromEntries(CATS);
-    const CAT_COLOR = {
-      cafe:'#8a6427', bread:'#96702c', food:'#c1432b', izakaya:'#6f4a8a',
-      kids:'#c94f7c', shop:'#2d4a7c', market:'#5a6b3a', spot:'#0f7b6c'
-    };
+    let activeCat = 'all', mode = 'list', placesMap = null, markerLayer = null;
+    let userPos = null, watchId = null, sortByDist = false, userMarker = null, userCircle = null;
 
     filtersEl.innerHTML = CATS.map(([id, label]) =>
-      '<button type="button" class="filter-chip' + (id === 'all' ? ' is-active' : '') + '" data-cat="' + id + '">' + label + '</button>'
-    ).join('');
+      '<button type="button" class="filter-chip' + (id === 'all' ? ' is-active' : '') + '" data-cat="' + id + '">' + label + '</button>').join('');
 
-    function esc(s){
-      const d = document.createElement('div');
-      d.textContent = s;
-      return d.innerHTML;
-    }
-
-    // --- geolocation helpers ---
     function distMeters(aLat, aLng, bLat, bLng){
-      const R = 6371000, toRad = d => d * Math.PI / 180;
-      const dLat = toRad(bLat - aLat), dLng = toRad(bLng - aLng);
-      const s = Math.sin(dLat/2)**2 +
-        Math.cos(toRad(aLat)) * Math.cos(toRad(bLat)) * Math.sin(dLng/2)**2;
+      const R = 6371000, r = d => d * Math.PI / 180;
+      const s = Math.sin(r(bLat - aLat) / 2) ** 2 + Math.cos(r(aLat)) * Math.cos(r(bLat)) * Math.sin(r(bLng - aLng) / 2) ** 2;
       return 2 * R * Math.asin(Math.sqrt(s));
     }
+    const fmtDist = m => m == null ? '' : (m < 950 ? Math.round(m / 10) * 10 + ' m' : (m < 100000 ? (m / 1000).toFixed(1) + ' km' : Math.round(m / 1000) + ' km'));
+    const distTo = p => (!userPos || typeof p.lat !== 'number') ? null : distMeters(userPos.lat, userPos.lng, p.lat, p.lng);
 
-    function fmtDist(m){
-      if (m == null) return '';
-      if (m < 950) return Math.round(m / 10) * 10 + ' m';
-      if (m < 100000) return (m / 1000).toFixed(1) + ' km';
-      return Math.round(m / 1000) + ' km';
-    }
-
-    function distTo(p){
-      if (!userPos || typeof p.lat !== 'number') return null;
-      return distMeters(userPos.lat, userPos.lng, p.lat, p.lng);
-    }
-
-    function matchedPlaces(){
+    function matched(){
       const q = qEl.value.trim().toLowerCase();
       const list = PLACES.filter(p => {
-        if (activeCat !== 'all' && p.c !== activeCat) return false;
-        if (!q) return true;
-        return (p.n + ' ' + p.area + ' ' + p.note + ' ' + p.day + ' ' + (p.addr || '') + ' ' + (CAT_LABEL[p.c] || ''))
-          .toLowerCase().includes(q);
+        if (activeCat === 'pocket' ? p.scheduled : (activeCat !== 'all' && p.c !== activeCat)) return false;
+        return !q || (p.n + ' ' + p.area + ' ' + p.note + ' ' + p.day + ' ' + p.addr + ' ' + p.type).toLowerCase().includes(q);
       });
-      if (sortByDist && userPos) {
-        return list.slice().sort((a, b) => {
-          const da = distTo(a), db = distTo(b);
-          if (da == null) return 1;
-          if (db == null) return -1;
-          return da - db;
-        });
-      }
+      if (sortByDist && userPos) return list.slice().sort((a, b) => { const da = distTo(a), db = distTo(b); return da == null ? 1 : (db == null ? -1 : da - db); });
       return list;
     }
-
-    function gmapUrl(p){
-      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.map);
-    }
-
-    function renderList(matched){
-      if (matched.length === 0) {
-        gridEl.innerHTML = '<div class="places-empty">找不到符合的店家,換個關鍵字試試。</div>';
-        return;
-      }
-      gridEl.innerHTML = matched.map(p =>
+    function renderList(list){
+      if (!list.length) { gridEl.innerHTML = '<div class="places-empty">找不到符合的地點,換個關鍵字試試。</div>'; return; }
+      gridEl.innerHTML = list.map(p =>
         '<div class="place-card">' +
-          '<div class="place-top">' +
-            '<span class="place-name">' + esc(p.n) + '</span>' +
-            '<span class="place-cat c-' + p.c + '">' + esc(CAT_LABEL[p.c] || '') + '</span>' +
-            (p.isNew ? '<span class="place-new">新</span>' : '') +
-          '</div>' +
-          '<div class="place-meta">' + esc(p.area) +
-            (p.hours ? '<span class="sep">|</span>' + esc(p.hours) : '') +
+          '<div class="place-top"><span class="place-name">' + esc(p.n) + '</span>' +
+            '<span class="place-cat c-' + p.c + '">' + esc(p.type || CAT_LABEL[p.c]) + '</span>' + (p.isNew ? '<span class="place-new">新</span>' : '') + '</div>' +
+          '<div class="place-meta">' + esc(p.area) + (p.hours ? '<span class="sep">|</span>' + esc(p.hours) : '') +
             ' <span class="place-day">' + esc(p.day) + '</span>' +
             (distTo(p) != null ? ' <span class="place-dist">◎ ' + fmtDist(distTo(p)) + '</span>' : '') +
-          '</div>' +
-          '<div class="place-note">' + esc(p.note) + '</div>' +
-          '<a class="place-map" href="' + gmapUrl(p) + '" target="_blank" rel="noopener">在 Google 地圖開啟 →</a>' +
-        '</div>'
-      ).join('');
+            (p.lat == null ? ' <span class="place-day">待確認位置</span>' : '') + '</div>' +
+          (p.note ? '<div class="place-note">' + md(p.note) + '</div>' : '') +
+          '<a class="place-map" href="' + gmap(p.map) + '" target="_blank" rel="noopener">在 Google 地圖開啟 →</a>' +
+          (p.link ? ' <a class="place-map" href="' + esc(p.link) + '" target="_blank" rel="noopener">參考連結 →</a>' : '') +
+        '</div>').join('');
     }
-
     function ensureMap(){
       if (placesMap || typeof L === 'undefined') return;
-      placesMap = L.map('places-map', {scrollWheelZoom:false, zoomControl:true}).setView([35.68, 139.76], 10);
+      placesMap = L.map('places-map', {scrollWheelZoom: false, zoomControl: true}).setView([35.68, 139.76], 10);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains:'abcd', maxZoom:19
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>', subdomains: 'abcd', maxZoom: 19
       }).addTo(placesMap);
       markerLayer = L.layerGroup().addTo(placesMap);
     }
-
-    function renderMap(matched){
-      ensureMap();
-      if (!placesMap) return;
+    function renderMap(list){
+      ensureMap(); if (!placesMap) return;
       markerLayer.clearLayers();
       const pts = [];
-      matched.forEach(p => {
-        if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return;
-        const color = CAT_COLOR[p.c] || '#c1432b';
-        const icon = L.divIcon({
-          className:'place-pin-wrap',
-          html:'<div class="place-pin" style="background:' + color + '"></div>',
-          iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-10]
-        });
-        L.marker([p.lat, p.lng], {icon})
-          .bindPopup(
-            '<b>' + esc(p.n) + '</b><small>' + esc(p.area) +
-            (p.hours ? ' · ' + esc(p.hours) : '') + ' · ' + esc(p.day) +
-            (distTo(p) != null ? ' · 距離約 ' + fmtDist(distTo(p)) : '') + '</small>' +
-            '<span style="display:block;margin-top:6px;font-family:\'Noto Sans TC\',sans-serif;font-size:12px;line-height:1.5">' + esc(p.note) + '</span>' +
-            '<a href="' + gmapUrl(p) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:12px">在 Google 地圖開啟 →</a>'
-          )
-          .addTo(markerLayer);
+      list.forEach(p => {
+        if (typeof p.lat !== 'number') return;
+        const icon = L.divIcon({className: 'place-pin-wrap', html: '<div class="place-pin" style="background:' + (CAT_COLOR[p.c] || '#c1432b') + '"></div>', iconSize: [18, 18], iconAnchor: [9, 9], popupAnchor: [0, -10]});
+        L.marker([p.lat, p.lng], {icon}).bindPopup('<b>' + esc(p.n) + '</b><small>' + esc(p.area) + (p.hours ? ' · ' + esc(p.hours) : '') + ' · ' + esc(p.day) +
+          (distTo(p) != null ? ' · 距離約 ' + fmtDist(distTo(p)) : '') + '</small>' +
+          (p.note ? '<span style="display:block;margin-top:6px;font-family:\'Noto Sans TC\',sans-serif;font-size:12px;line-height:1.5">' + md(p.note) + '</span>' : '') +
+          '<a href="' + gmap(p.map) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:12px">在 Google 地圖開啟 →</a>').addTo(markerLayer);
         pts.push([p.lat, p.lng]);
       });
-      if (userPos) {
-        drawUserOnMap(false);
-        pts.push([userPos.lat, userPos.lng]);   // 一起入鏡,才看得出自己跟店家的相對位置
-      }
+      if (userPos) { drawUser(false); pts.push([userPos.lat, userPos.lng]); }
       setTimeout(() => {
         placesMap.invalidateSize();
-        if (pts.length > 1) placesMap.fitBounds(pts, {padding:[40,40], maxZoom:14});
+        if (pts.length > 1) placesMap.fitBounds(pts, {padding: [40, 40], maxZoom: 14});
         else if (pts.length === 1) placesMap.setView(pts[0], 15);
       }, 60);
     }
-
-    function renderPlacesView(){
-      const matched = matchedPlaces();
+    function render(){
+      const list = matched();
       const filtered = qEl.value.trim() || activeCat !== 'all';
-      countEl.textContent = '共 ' + matched.length + ' 間' +
-        (filtered ? '(已篩選,總共 ' + PLACES.length + ' 間)' : '');
-      if (mode === 'list') renderList(matched);
-      else renderMap(matched);
+      countEl.textContent = '共 ' + list.length + ' 個' + (filtered ? '(已篩選,總共 ' + PLACES.length + ' 個)' : '');
+      if (mode === 'list') renderList(list); else renderMap(list);
     }
-
     function setMode(next){
       mode = next;
       modeBtns.forEach(b => b.classList.toggle('is-active', b.dataset.mode === next));
-      gridEl.hidden = (next !== 'list');
-      mapWrapEl.hidden = (next !== 'map');
-      renderPlacesView();
+      gridEl.hidden = next !== 'list'; mapWrapEl.hidden = next !== 'map';
+      render();
     }
-
-    // --- geolocation: show me on the map ---
-    function showGeoMsg(html){
-      geoMsgEl.innerHTML = html;
-      geoMsgEl.hidden = false;
-    }
-
-    function drawUserOnMap(firstFix){
+    function showGeoMsg(h){ geoMsgEl.innerHTML = h; geoMsgEl.hidden = false; }
+    function drawUser(first){
       if (!placesMap || !userPos) return;
       if (!userMarker) {
-        userMarker = L.marker([userPos.lat, userPos.lng], {
-          icon: L.divIcon({className:'user-dot-wrap', html:'<div class="user-dot"></div>',
-            iconSize:[16,16], iconAnchor:[8,8], popupAnchor:[0,-10]}),
-          zIndexOffset: 1000
-        }).bindPopup('<b>你在這裡</b>').addTo(placesMap);
-        userCircle = L.circle([userPos.lat, userPos.lng], {
-          radius: userPos.acc || 30, color:'#1a73e8', weight:1,
-          fillColor:'#1a73e8', fillOpacity:0.12
-        }).addTo(placesMap);
-      } else {
-        userMarker.setLatLng([userPos.lat, userPos.lng]);
-        userCircle.setLatLng([userPos.lat, userPos.lng]).setRadius(userPos.acc || 30);
-      }
-      if (firstFix) placesMap.setView([userPos.lat, userPos.lng], 15);
+        userMarker = L.marker([userPos.lat, userPos.lng], {icon: L.divIcon({className: 'user-dot-wrap', html: '<div class="user-dot"></div>', iconSize: [16, 16], iconAnchor: [8, 8], popupAnchor: [0, -10]}), zIndexOffset: 1000}).bindPopup('<b>你在這裡</b>').addTo(placesMap);
+        userCircle = L.circle([userPos.lat, userPos.lng], {radius: userPos.acc || 30, color: '#1a73e8', weight: 1, fillColor: '#1a73e8', fillOpacity: 0.12}).addTo(placesMap);
+      } else { userMarker.setLatLng([userPos.lat, userPos.lng]); userCircle.setLatLng([userPos.lat, userPos.lng]).setRadius(userPos.acc || 30); }
+      if (first) placesMap.setView([userPos.lat, userPos.lng], 15);
     }
-
-    function onGeoOk(pos, firstFix){
+    function onOk(pos, first){
       userPos = {lat: pos.coords.latitude, lng: pos.coords.longitude, acc: pos.coords.accuracy};
-      locateBtn.classList.remove('is-busy');
-      locateBtn.classList.add('is-active');
-      locateBtn.textContent = '◎ 定位中(持續更新)';
-      sortBtn.hidden = false;
-      geoMsgEl.hidden = true;
-      if (firstFix) {
-        sortByDist = true;
-        sortBtn.classList.add('is-active');
-      }
-      if (mode === 'map') { ensureMap(); drawUserOnMap(firstFix); }
-      renderPlacesView();
+      locateBtn.classList.remove('is-busy'); locateBtn.classList.add('is-active'); locateBtn.textContent = '◎ 定位中(持續更新)';
+      sortBtn.hidden = false; geoMsgEl.hidden = true;
+      if (first) { sortByDist = true; sortBtn.classList.add('is-active'); }
+      if (mode === 'map') { ensureMap(); drawUser(first); }
+      render();
     }
-
-    function onGeoErr(err){
-      locateBtn.classList.remove('is-busy', 'is-active');
-      locateBtn.textContent = '◎ 定位我';
-      let msg;
-      if (err && err.code === 1) {
-        msg = '<strong>定位被拒絕。</strong>請在瀏覽器網址列的鎖頭圖示裡把「位置」改成允許,再按一次定位。';
-      } else if (err && err.code === 3) {
-        msg = '<strong>定位逾時。</strong>室內或地下街訊號較差,走到窗邊或戶外再試一次。';
-      } else {
-        msg = '<strong>拿不到定位。</strong>請確認手機已開啟定位服務。';
-      }
-      showGeoMsg(msg);
+    function onErr(err){
+      locateBtn.classList.remove('is-busy', 'is-active'); locateBtn.textContent = '◎ 定位我';
+      showGeoMsg(err && err.code === 1 ? '<strong>定位被拒絕。</strong>請在瀏覽器網址列的鎖頭圖示裡把「位置」改成允許,再按一次定位。'
+        : err && err.code === 3 ? '<strong>定位逾時。</strong>室內或地下街訊號較差,走到窗邊或戶外再試一次。' : '<strong>拿不到定位。</strong>請確認手機已開啟定位服務。');
     }
-
-    function startLocate(){
-      if (!navigator.geolocation) {
-        showGeoMsg('<strong>這個瀏覽器不支援定位。</strong>');
-        return;
-      }
-      if (!window.isSecureContext) {
-        showGeoMsg('<strong>目前的開啟方式不能定位。</strong>瀏覽器只允許 HTTPS 網頁取得位置。' +
-          '請改用 <a href="https://dreamswish10.github.io/trips/tokyo-2026/" target="_blank" rel="noopener">https://dreamswish10.github.io/trips/tokyo-2026/</a> 開啟(建議在手機上加到主畫面)。');
-        return;
-      }
-      locateBtn.classList.add('is-busy');
-      locateBtn.textContent = '◎ 定位中…';
-      let first = true;
-      watchId = navigator.geolocation.watchPosition(
-        (pos) => { onGeoOk(pos, first); first = false; },
-        onGeoErr,
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
-      );
-    }
-
-    function stopLocate(){
-      if (watchId != null) navigator.geolocation.clearWatch(watchId);
-      watchId = null;
-      userPos = null;
-      sortByDist = false;
-      sortBtn.hidden = true;
-      sortBtn.classList.remove('is-active');
-      locateBtn.classList.remove('is-active', 'is-busy');
-      locateBtn.textContent = '◎ 定位我';
-      geoMsgEl.hidden = true;
-      if (placesMap && userMarker) placesMap.removeLayer(userMarker);
-      if (placesMap && userCircle) placesMap.removeLayer(userCircle);
-      userMarker = null; userCircle = null;
-      renderPlacesView();
-    }
-
     locateBtn.addEventListener('click', () => {
-      if (watchId != null) stopLocate(); else startLocate();
+      if (watchId != null) {
+        navigator.geolocation.clearWatch(watchId); watchId = null; userPos = null; sortByDist = false;
+        sortBtn.hidden = true; sortBtn.classList.remove('is-active'); locateBtn.classList.remove('is-active', 'is-busy'); locateBtn.textContent = '◎ 定位我'; geoMsgEl.hidden = true;
+        if (placesMap && userMarker) placesMap.removeLayer(userMarker);
+        if (placesMap && userCircle) placesMap.removeLayer(userCircle);
+        userMarker = userCircle = null; render(); return;
+      }
+      if (!navigator.geolocation) { showGeoMsg('<strong>這個瀏覽器不支援定位。</strong>'); return; }
+      if (!window.isSecureContext) { showGeoMsg('<strong>目前的開啟方式不能定位。</strong>請改用 <a href="https://dreamswish10.github.io/trips/tokyo-2026/" target="_blank" rel="noopener">https://dreamswish10.github.io/trips/tokyo-2026/</a> 開啟。'); return; }
+      locateBtn.classList.add('is-busy'); locateBtn.textContent = '◎ 定位中…';
+      let first = true;
+      watchId = navigator.geolocation.watchPosition(p => { onOk(p, first); first = false; }, onErr, {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000});
     });
-
-    sortBtn.addEventListener('click', () => {
-      sortByDist = !sortByDist;
-      sortBtn.classList.toggle('is-active', sortByDist);
-      renderPlacesView();
-    });
-
-    // --- CSV export for Google My Maps ---
-    function toCsv(){
-      const head = ['名稱','分類','地區','地址','緯度','經度','營業時間','排定','備註'];
-      const rows = PLACES.map(p => [
-        p.n, CAT_LABEL[p.c] || '', p.area, p.addr || '', p.lat, p.lng,
-        p.hours || '', p.day || '', p.note || ''
-      ]);
-      return [head].concat(rows).map(r =>
-        r.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(',')
-      ).join('\r\n');
-    }
-
+    sortBtn.addEventListener('click', () => { sortByDist = !sortByDist; sortBtn.classList.toggle('is-active', sortByDist); render(); });
     csvBtn.addEventListener('click', () => {
-      const blob = new Blob(['﻿' + toCsv()], {type:'text/csv;charset=utf-8;'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'tokyo-2026-places.csv';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      const head = ['名稱','分類','地區','地址','緯度','經度','營業時間','排定','備註'];
+      const rows = PLACES.map(p => [p.n, p.type || CAT_LABEL[p.c], p.area, p.addr, p.lat == null ? '' : p.lat, p.lng == null ? '' : p.lng, p.hours, p.day, p.note]);
+      const csv = [head].concat(rows).map(r => r.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+      const url = URL.createObjectURL(new Blob(['﻿' + csv], {type: 'text/csv;charset=utf-8;'}));
+      const a = document.createElement('a'); a.href = url; a.download = 'tokyo-2026-places.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(url), 1000);
     });
-
-    qEl.addEventListener('input', renderPlacesView);
-    filtersEl.addEventListener('click', (e) => {
-      const chip = e.target.closest('.filter-chip');
-      if (!chip) return;
+    qEl.addEventListener('input', render);
+    filtersEl.addEventListener('click', e => {
+      const chip = e.target.closest('.filter-chip'); if (!chip) return;
       activeCat = chip.dataset.cat;
-      filtersEl.querySelectorAll('.filter-chip').forEach(c =>
-        c.classList.toggle('is-active', c === chip));
-      renderPlacesView();
+      filtersEl.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      render();
     });
     modeBtns.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
-
-    // resize map when the section becomes visible again
-    document.querySelectorAll('[data-view="places"]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (mode === 'map') setTimeout(() => { if (placesMap) placesMap.invalidateSize(); }, 120);
-      });
-    });
-
+    window.__placesShown = () => { if (mode === 'map') setTimeout(() => { if (placesMap) placesMap.invalidateSize(); }, 120); };
     setMode('list');
   }
 
-  const STORAGE_KEY = 'tokyo2026_packing_v1';
-
-  const DEFAULT_ITEMS = [
-    ['玩雪裝備','防水防風雪衣(大人 x2)· 輕井澤 0 到 -7°C'],
-    ['玩雪裝備','防水雪褲(大人 x2)· 玩雪橇一定會坐在雪上'],
-    ['玩雪裝備','兒童雪衣雪褲 x2 · GALA 車站直結可現場租(一套約 ¥5,000-8,000/日)'],
-    ['玩雪裝備','防水手套 x4 · 毛線手套碰雪會濕透,一定要防水'],
-    ['玩雪裝備','備用手套(小孩各一副)· 濕了馬上換'],
-    ['玩雪裝備','防水雪靴 / 防滑雪鞋 x4 · 一般球鞋會濕又會滑'],
-    ['玩雪裝備','厚羊毛襪 x4 人份 · 多帶幾雙,濕了就換'],
-    ['玩雪裝備','毛帽 x4 · 遮耳的那種'],
-    ['玩雪裝備','脖圍 / 魔術頭巾 x4 · 比圍巾安全,不會勾到'],
-    ['玩雪裝備','太陽眼鏡或雪鏡 · 雪地反光很傷眼'],
-    ['玩雪裝備','防曬乳 · 雪地紫外線比夏天強'],
-    ['玩雪裝備','暖暖包(貼式 + 鞋用)· 日本便利商店也買得到'],
-    ['玩雪裝備','防水背包套或大塑膠袋 · 裝濕掉的衣物'],
-    ['玩雪裝備','小毛巾 x4 · 擦臉擦手'],
-    ['玩雪裝備','兒童護目鏡(選配)· 下雪時有差'],
-    ['保暖衣物','發熱衣(每人 2-3 件)· UNIQLO 極暖等級'],
-    ['保暖衣物','刷毛中層 / 羽絨背心 · 疊穿的中間層'],
-    ['保暖衣物','羽絨外套(東京市區用)'],
-    ['保暖衣物','厚褲 / 刷毛內搭褲 · 雪褲裡面穿'],
-    ['保暖衣物','室內換洗衣物 · 飯店很暖,薄的就好'],
-    ['保暖衣物','睡衣(飯店暖氣強,薄款)'],
-    ['保暖衣物','拖鞋'],
-    ['證件與金錢','護照(效期 6 個月以上,全家 4 本)'],
-    ['證件與金錢','Visit Japan Web 入境 QR(出發前填好、截圖)'],
-    ['證件與金錢','日幣現金(含 ¥100 硬幣,置物櫃與扭蛋用)'],
-    ['證件與金錢','信用卡(出發前通知銀行開海外交易)'],
-    ['證件與金錢','電子機票 + 訂房證明'],
-    ['證件與金錢','新幹線訂位紀錄(えきねっと)'],
-    ['證件與金錢','富士山包車預約單 + 司機聯絡方式'],
-    ['證件與金錢','旅遊不便險保單(確認有無涵蓋滑雪)'],
-    ['證件與金錢','健保卡 + 兒童英文版疫苗紀錄'],
-    ['證件與金錢','護照影本 + 證件照(遺失時補辦用)'],
-    ['電子產品','手機 + 充電線 x2'],
-    ['電子產品','行動電源 x2 · 低溫掉電快,每人一顆更保險'],
-    ['電子產品','eSIM 或 WiFi 分享機'],
-    ['電子產品','平板(先下載離線卡通,新幹線與包車用)'],
-    ['電子產品','相機 / 記憶卡 · 雪地記得多帶電池'],
-    ['電子產品','延長線或多孔充電器(日本飯店插座少)'],
-    ['藥品與盥洗','兒童常備藥(退燒、感冒、腸胃藥)'],
-    ['藥品與盥洗','大人常備藥'],
-    ['藥品與盥洗','體溫計'],
-    ['藥品與盥洗','暈車藥(中央道彎多、新幹線也可能暈)'],
-    ['藥品與盥洗','護唇膏 x4 · 日本冬天極乾'],
-    ['藥品與盥洗','乳液 / 兒童保濕霜 · 小孩臉頰會裂'],
-    ['藥品與盥洗','生理食鹽水鼻噴 · 乾燥容易流鼻血'],
-    ['藥品與盥洗','口罩 + 乾洗手 · 諾羅與流感高峰期'],
-    ['藥品與盥洗','OK 繃'],
-    ['藥品與盥洗','個人盥洗用品'],
-    ['5 歲男孩','安撫玩偶'],
-    ['5 歲男孩','小汽車 / 貼紙書(包車與新幹線用)'],
-    ['5 歲男孩','兒童牙刷牙膏'],
-    ['5 歲男孩','兒童餐具'],
-    ['5 歲男孩','替換褲子 x2(玩雪一定會濕)'],
-    ['8 歲女孩','畫本 + 色鉛筆'],
-    ['8 歲女孩','讀本 / 任天堂 Switch'],
-    ['8 歲女孩','兒童耳機'],
-    ['8 歲女孩','個人小背包'],
-    ['兩小孩共用','換洗衣物(天數 + 2 套備用,冬天更換頻繁)'],
-    ['兩小孩共用','保溫瓶 x2 · 裝熱水熱可可'],
-    ['兩小孩共用','防走失手環 / 定位器(跨年人潮必備)'],
-    ['兩小孩共用','兒童版 Suica(到綠色窗口辦,8 歲用)'],
-    ['兩小孩共用','輕便雨具 · 東京冬天偶爾下雨'],
-    ['兩小孩共用','輕井澤一夜用的小行李袋 · 大行李留東京'],
-    ['出發前要辦','12/29 搬家:先查好淺草→原宿路線或叫車'],
-    ['其他','環保購物袋(日本塑膠袋收費)'],
-    ['其他','夾鏈袋數個(分裝藥品、濕衣服)'],
-    ['其他','行李秤'],
-    ['其他','折疊隨身袋(裝戰利品)'],
-    ['其他','常備零食(飛機 / 包車 / 排隊用)'],
-    ['出發前要辦','補上三處住宿地址:淺草 12/25-29、輕井澤 12/27、明治神宮 12/29-1/1'],
-    ['出發前要辦','劃好 12/27、12/28 輕井澤與 12/30 越後湯澤的新幹線指定席'],
-    ['出發前要辦','買旅遊不便險(含滑雪保障)'],
-    ['出發前要辦','跟包車確認雪胎 / 鏈條與集合時間'],
-    ['出發前要辦','買 GALA 早割纜車券(11/30 前線上限定)'],
-    ['出發前要辦','12/31 晚餐先訂位(當天很多店休)'],
-    ['出發前要辦','查好飯店附近年末值班的小兒急診'],
-    ['出發前要辦','手機下載 Google 翻譯日文離線包 + 乗換案内'],
-    ['出發前要辦','家裡:關瓦斯水電、機場接送、寵物托養']
-  ];
-
-  const CATEGORY_ORDER = ['玩雪裝備','保暖衣物','證件與金錢','電子產品','藥品與盥洗','5 歲男孩','8 歲女孩','兩小孩共用','其他','出發前要辦'];
-  const CATEGORY_ICON = {
-    '玩雪裝備':'雪','保暖衣物':'衣','證件與金錢':'證','電子產品':'電','藥品與盥洗':'藥','5 歲男孩':'男','8 歲女孩':'女','兩小孩共用':'童','其他':'他','出發前要辦':'辦'
-  };
-
-  function seedItems(){
-    return DEFAULT_ITEMS.map((pair, i) => ({
-      id: 'seed-' + i,
-      category: pair[0],
-      text: pair[1],
-      checked: false
-    }));
+  // ---------- 行前準備（唯讀，勾選在試算表裡做） ----------
+  function renderPacking(model){
+    const ICON = {'玩雪裝備':'雪','保暖衣物':'衣','證件與金錢':'證','電子產品':'電','藥品與盥洗':'藥','5 歲男孩':'男','8 歲女孩':'女','兩小孩共用':'童','其他':'他','出發前要辦':'辦'};
+    const items = model.packing, groupsEl = document.getElementById('packing-groups');
+    const cats = []; items.forEach(it => { if (!cats.includes(it.category)) cats.push(it.category); });
+    let done = 0;
+    groupsEl.innerHTML = cats.map(cat => {
+      const list = items.filter(it => it.category === cat), c = list.filter(it => it.checked).length;
+      done += c;
+      return '<div class="pack-group"><div class="pack-group-head"><span class="icon">' + esc(ICON[cat] || '項') + '</span><h4>' + esc(cat) + '</h4><span class="g-count">' + c + '/' + list.length + '</span></div>' +
+        '<ul class="pack-list">' + list.map(it =>
+          '<li class="pack-item' + (it.checked ? ' is-checked' : '') + '"><input type="checkbox" disabled' + (it.checked ? ' checked' : '') + '>' +
+          '<label>' + esc(it.text) + (it.note ? '<span class="pack-note">' + esc(it.note) + '</span>' : '') + '</label>' +
+          (it.owner ? '<span class="pack-owner">' + esc(it.owner) + '</span>' : '') + '</li>').join('') + '</ul></div>';
+    }).join('') || '<div class="packing-empty">試算表的「行前準備」還沒有項目。</div>';
+    document.getElementById('packing-count').textContent = done + ' / ' + items.length;
+    document.getElementById('packing-bar').style.width = items.length ? Math.round(done / items.length * 100) + '%' : '0%';
   }
 
-  function loadItems(){
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch(e) {}
-    const seeded = seedItems();
-    saveItems(seeded);
-    return seeded;
+  // ---------- 啟動 ----------
+  function setStatus(html, kind){
+    const el = document.getElementById('data-status');
+    if (!html) { el.hidden = true; return; }
+    el.innerHTML = html; el.className = 'data-status ' + (kind || ''); el.hidden = false;
   }
-
-  function saveItems(list){
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch(e) {}
+  document.querySelectorAll('.sheet-edit-link').forEach(a => { a.href = SHEET_EDIT; });
+  function afterLeaflet(fn){ if (typeof L !== 'undefined' || document.readyState === 'complete') fn(); else window.addEventListener('load', fn); }
+  const INITIAL_HASH = window.location.hash;
+  function boot(){
+    const hash = INITIAL_HASH, m = hash.match(/^#day(\d+)$/);
+    if (m && document.getElementById('day' + m[1])) { showView('days', false); show(m[1], false); }
+    else showView(VALID_VIEWS.includes(hash.slice(1)) ? hash.slice(1) : 'home', false);
   }
-
-  const groupsEl = document.getElementById('packing-groups');
-  if (!groupsEl) return;
-
-  let items = loadItems();
-
-  const countEl = document.getElementById('packing-count');
-  const barEl = document.getElementById('packing-bar');
-  const categorySelect = document.getElementById('packing-new-category');
-  const addForm = document.getElementById('packing-add-form');
-  const newTextInput = document.getElementById('packing-new-text');
-  const resetBtn = document.getElementById('packing-reset-btn');
-
-  function escapeHtml(str){
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+  { // 資料讀完前先切到對的頁面，但不改網址
+    const v = /^#day\d+$/.test(INITIAL_HASH) ? 'days' : INITIAL_HASH.slice(1);
+    const id = VALID_VIEWS.includes(v) ? v : 'home';
+    document.querySelectorAll('section.view').forEach(x => x.classList.toggle('is-active', x.dataset.view === id));
+    document.querySelectorAll('.nav-item, .pill-item').forEach(x => x.classList.toggle('is-active', x.dataset.view === id));
   }
-
-  function currentCategories(){
-    const list = CATEGORY_ORDER.slice();
-    items.forEach(it => { if (!list.includes(it.category)) list.push(it.category); });
-    return list;
-  }
-
-  function render(){
-    const cats = currentCategories();
-
-    categorySelect.innerHTML = cats.map(c =>
-      '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>'
-    ).join('');
-
-    groupsEl.innerHTML = '';
-    let totalChecked = 0;
-
-    cats.forEach(cat => {
-      const catItems = items.filter(it => it.category === cat);
-      if (catItems.length === 0) return;
-      const checkedCount = catItems.filter(it => it.checked).length;
-      totalChecked += checkedCount;
-
-      const group = document.createElement('div');
-      group.className = 'pack-group';
-      group.innerHTML =
-        '<div class="pack-group-head">' +
-          '<span class="icon">' + escapeHtml(CATEGORY_ICON[cat] || '項') + '</span>' +
-          '<h4>' + escapeHtml(cat) + '</h4>' +
-          '<span class="g-count">' + checkedCount + '/' + catItems.length + '</span>' +
-        '</div>' +
-        '<ul class="pack-list"></ul>';
-
-      const list = group.querySelector('.pack-list');
-      catItems.forEach(it => {
-        const li = document.createElement('li');
-        li.className = 'pack-item' + (it.checked ? ' is-checked' : '');
-        const cbId = 'chk-' + it.id;
-        li.innerHTML =
-          '<input type="checkbox" id="' + cbId + '"' + (it.checked ? ' checked' : '') + '>' +
-          '<label for="' + cbId + '">' + escapeHtml(it.text) + '</label>' +
-          '<button type="button" class="del-btn" aria-label="刪除">×</button>';
-
-        li.querySelector('input').addEventListener('change', (e) => {
-          it.checked = e.target.checked;
-          saveItems(items);
-          render();
-        });
-        li.querySelector('.del-btn').addEventListener('click', () => {
-          items = items.filter(x => x.id !== it.id);
-          saveItems(items);
-          render();
-        });
-        list.appendChild(li);
-      });
-
-      groupsEl.appendChild(group);
-    });
-
-    const total = items.length;
-    countEl.textContent = total === 0 ? '0 / 0' : (totalChecked + ' / ' + total);
-    barEl.style.width = total === 0 ? '0%' : Math.round(totalChecked / total * 100) + '%';
-
-    if (total === 0) {
-      groupsEl.innerHTML = '<div class="packing-empty">目前沒有項目,從上面新增第一項吧。</div>';
-    }
-  }
-
-  addForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const text = newTextInput.value.trim();
-    if (!text) return;
-    const category = categorySelect.value || '其他';
-    items.push({
-      id: 'custom-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
-      category: category,
-      text: text,
-      checked: false
-    });
-    saveItems(items);
-    newTextInput.value = '';
-    render();
+  bindDays();
+  loadAll().then(res => {
+    const model = buildModel(res.raw);
+    renderDays(model); initPlaces(model); renderPacking(model);
+    if (res.cached) {
+      const d = new Date(res.ts);
+      setStatus('目前連不到試算表,顯示的是這支手機 ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + ' 存下的資料。', 'is-offline');
+    } else setStatus('');
+    afterLeaflet(boot);
+  }).catch(err => {
+    document.getElementById('days-container').innerHTML = '<div class="days-empty">讀不到行程資料,請確認網路後重新整理。<br><small>' + esc(err && err.message) + '</small></div>';
+    setStatus('讀不到試算表的資料,而且這支手機還沒有存過資料。請連上網路後重新整理。', 'is-error');
   });
-
-  resetBtn.addEventListener('click', () => {
-    if (!window.confirm('確定要把全部項目取消勾選嗎?(不會刪除項目)')) return;
-    items.forEach(it => { it.checked = false; });
-    saveItems(items);
-    render();
-  });
-
-  render();
 })();
 </script>
 
