@@ -2,7 +2,7 @@
 
 2大2小,別府 1(野乃)+ 熊本 1(OMO5)+ 福岡 4(唐人町 Airbnb)共三家住宿的七日六夜家族行程。自駕為主(Day 1-2 機場取熊本還、Day 6-7 唐人町取機場還),不用 JR PASS,Day 3 熊本→博多 さくら 單買票。
 
-🌐 **線上查看**:https://dreamswish10.github.io/fukuoka-2026/
+🌐 **線上查看**:https://dreamswish10.github.io/trips/fukuoka-2026/
 
 ## 內容
 
