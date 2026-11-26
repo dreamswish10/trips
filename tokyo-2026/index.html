@@ -2301,28 +2301,11 @@
     return {days, places, packing, issues};
   }
 
-  // ---------- 地圖底圖：CARTO 載不到時自動改用 OpenStreetMap ----------
-  let useOsmTiles = false;
-  function osmLayer(){
-    return L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19
-    });
-  }
+  // ---------- 地圖底圖：OpenStreetMap（不需要 API key，需標示來源） ----------
   function addBaseTiles(map){
-    if (useOsmTiles) { osmLayer().addTo(map); return; }
-    const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd', maxZoom: 19
-    });
-    let loaded = 0, failed = 0;
-    carto.on('tileload', () => { loaded++; });
-    carto.on('tileerror', () => {
-      failed++;
-      if (!loaded && failed >= 3 && map.hasLayer(carto)) {
-        useOsmTiles = true; map.removeLayer(carto); osmLayer().addTo(map);
-      }
-    });
-    carto.addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19
+    }).addTo(map);
   }
   function mapUnavailable(el){
     if (el && !el.dataset.msg) {
