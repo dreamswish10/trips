@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css"/>
+<script src="vendor/leaflet/leaflet.js" defer></script>
 <style>
   :root{
     --paper:#f5efe4;
@@ -1596,6 +1596,7 @@
   .data-issues{margin:24px 0 0;padding:12px 14px;border:1px dashed #efb6a9;border-radius:8px;background:#fdf3f0;font-size:13px;color:var(--ink-soft)}
   .data-issues summary{cursor:pointer;color:var(--vermillion);font-weight:600}
   .data-issues ul{margin:10px 0 0 18px;line-height:1.7}
+  .map-fallback{display:flex;align-items:center;justify-content:center;height:100%;padding:16px;text-align:center;font-size:13px;line-height:1.6;color:var(--muted);background:#ece6da}
   .pack-note{display:block;font-size:12px;color:var(--muted);margin-top:2px}
   .pack-owner{margin-left:auto;padding:1px 8px;border-radius:999px;background:#ece6da;font-size:11px;color:var(--muted);white-space:nowrap}
 </style>
@@ -2300,6 +2301,36 @@
     return {days, places, packing, issues};
   }
 
+  // ---------- 地圖底圖：CARTO 載不到時自動改用 OpenStreetMap ----------
+  let useOsmTiles = false;
+  function osmLayer(){
+    return L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19
+    });
+  }
+  function addBaseTiles(map){
+    if (useOsmTiles) { osmLayer().addTo(map); return; }
+    const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd', maxZoom: 19
+    });
+    let loaded = 0, failed = 0;
+    carto.on('tileload', () => { loaded++; });
+    carto.on('tileerror', () => {
+      failed++;
+      if (!loaded && failed >= 3 && map.hasLayer(carto)) {
+        useOsmTiles = true; map.removeLayer(carto); osmLayer().addTo(map);
+      }
+    });
+    carto.addTo(map);
+  }
+  function mapUnavailable(el){
+    if (el && !el.dataset.msg) {
+      el.dataset.msg = '1';
+      el.innerHTML = '<div class="map-fallback">地圖程式載入失敗,請重新整理頁面。卡片上的「在 Google 地圖開啟」仍然可以用。</div>';
+    }
+  }
+
   // ---------- 畫每日行程 ----------
   const maps = {}, mapStops = {};
   function cardHtml(it, day){
@@ -2401,15 +2432,13 @@
   }
 
   function initMap(dayId){
-    if (maps[dayId] || typeof L === 'undefined') return;
+    if (maps[dayId]) return;
     const stops = mapStops[dayId];
     const el = document.getElementById('map-day' + dayId);
     if (!stops || !stops.length || !el) return;
+    if (typeof L === 'undefined') { if (document.readyState === 'complete') mapUnavailable(el); return; }
     const map = L.map(el, {scrollWheelZoom: false, zoomControl: true, attributionControl: true});
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd', maxZoom: 19
-    }).addTo(map);
+    addBaseTiles(map);
     const latlngs = stops.map(s => {
       const icon = L.divIcon({className: 'pin-wrap', html: '<div class="pin ' + s.type + '"><span>' + s.n + '</span></div>',
         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]});
@@ -2558,9 +2587,7 @@
     function ensureMap(){
       if (placesMap || typeof L === 'undefined') return;
       placesMap = L.map('places-map', {scrollWheelZoom: false, zoomControl: true}).setView([35.68, 139.76], 10);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>', subdomains: 'abcd', maxZoom: 19
-      }).addTo(placesMap);
+      addBaseTiles(placesMap);
       markerLayer = L.layerGroup().addTo(placesMap);
     }
     function renderMap(list){
