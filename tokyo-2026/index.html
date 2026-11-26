@@ -1597,6 +1597,8 @@
   .data-issues summary{cursor:pointer;color:var(--vermillion);font-weight:600}
   .data-issues ul{margin:10px 0 0 18px;line-height:1.7}
   .map-fallback{display:flex;align-items:center;justify-content:center;height:100%;padding:16px;text-align:center;font-size:13px;line-height:1.6;color:var(--muted);background:#ece6da}
+  .packing-msg{margin:0 0 12px;padding:8px 12px;border-radius:8px;background:#fbe3de;color:var(--vermillion);font-size:13px;line-height:1.6}
+  .pack-item.is-saving{opacity:.55}
   .pack-note{display:block;font-size:12px;color:var(--muted);margin-top:2px}
   .pack-owner{margin-left:auto;padding:1px 8px;border-radius:999px;background:#ece6da;font-size:11px;color:var(--muted);white-space:nowrap}
 </style>
@@ -2051,13 +2053,14 @@
   </div>
 
   <div class="packing-intro">
-    幫 <strong>2 大 + 2 小</strong> 列好這趟的必備項目,<strong>「玩雪裝備」是這趟的重點</strong>(輕井澤 0 到 -7°C),「出發前要辦」是出發前要辦完的事。清單來自 Google 試算表的「行前準備」,<strong>勾選請在試算表裡做</strong>,兩支手機都會看到同一份進度。<a class="sheet-edit-link" href="#" target="_blank" rel="noopener">✎ 在試算表勾選</a>
+    幫 <strong>2 大 + 2 小</strong> 列好這趟的必備項目,<strong>「玩雪裝備」是這趟的重點</strong>(輕井澤 0 到 -7°C),「出發前要辦」是出發前要辦完的事。清單來自 Google 試算表的「行前準備」,<span id="packing-howto"><strong>勾選請在試算表裡做</strong></span>,兩支手機都會看到同一份進度。<a class="sheet-edit-link" href="#" target="_blank" rel="noopener">✎ 在試算表編輯</a>
   </div>
 
   <div class="packing-progress">
     <span class="count" id="packing-count">0 / 0</span>
     <div class="bar"><div class="bar-fill" id="packing-bar" style="width:0%"></div></div>
   </div>
+  <div class="packing-msg" id="packing-msg" hidden></div>
 
 
   <div class="packing-groups" id="packing-groups"></div>
@@ -2086,6 +2089,10 @@
   };
   const CACHE_KEY = 'tokyo2026_sheet_cache_v1';
   const SEEN_KEY = 'tokyo2026_last_seen_v1';
+  // 行前準備勾選寫回試算表用的 Apps Script 網址（安裝方式見 docs/apps-script/README.md）。空白時網頁上的勾選框是唯讀的。
+  const PACKING_WRITE_URL = '';
+  const PASS_KEY = 'tokyo2026_packing_pass';
+  const PENDING_KEY = 'tokyo2026_packing_pending';
   const TRIP_START = '2026/12/25';
   const JP_AIRPORTS = {NRT:[35.7732,140.3872]}; // 只放查證過的座標
   const JP_AIRPORT_CODES = ['NRT','HND','KIX','ITM','NGO','FUK','CTS','OKA','KMJ','OIT','KOJ','SDJ','HIJ'];
@@ -2295,7 +2302,7 @@
 
     // 行前準備
     const packing = (S['行前準備'] || []).filter(o => o['項目']).map(o => ({
-      category: o['分類'] || '其他', text: o['項目'], note: o['說明'] || '', owner: o['負責人'] || '', checked: isTrue(o['完成'])
+      row: o._row, category: o['分類'] || '其他', text: o['項目'], note: o['說明'] || '', owner: o['負責人'] || '', checked: isTrue(o['完成'])
     }));
 
     return {days, places, packing, issues};
@@ -2662,23 +2669,75 @@
     setMode('list');
   }
 
-  // ---------- 行前準備（唯讀，勾選在試算表裡做） ----------
+  // ---------- 行前準備（勾選透過 Apps Script 寫回試算表） ----------
+  function loadJSON(k){ try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch(e) { return {}; } }
+  function saveJSON(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
   function renderPacking(model){
     const ICON = {'玩雪裝備':'雪','保暖衣物':'衣','證件與金錢':'證','電子產品':'電','藥品與盥洗':'藥','5 歲男孩':'男','8 歲女孩':'女','兩小孩共用':'童','其他':'他','出發前要辦':'辦'};
     const items = model.packing, groupsEl = document.getElementById('packing-groups');
-    const cats = []; items.forEach(it => { if (!cats.includes(it.category)) cats.push(it.category); });
-    let done = 0;
-    groupsEl.innerHTML = cats.map(cat => {
-      const list = items.filter(it => it.category === cat), c = list.filter(it => it.checked).length;
-      done += c;
-      return '<div class="pack-group"><div class="pack-group-head"><span class="icon">' + esc(ICON[cat] || '項') + '</span><h4>' + esc(cat) + '</h4><span class="g-count">' + c + '/' + list.length + '</span></div>' +
-        '<ul class="pack-list">' + list.map(it =>
-          '<li class="pack-item' + (it.checked ? ' is-checked' : '') + '"><input type="checkbox" disabled' + (it.checked ? ' checked' : '') + '>' +
-          '<label>' + esc(it.text) + (it.note ? '<span class="pack-note">' + esc(it.note) + '</span>' : '') + '</label>' +
-          (it.owner ? '<span class="pack-owner">' + esc(it.owner) + '</span>' : '') + '</li>').join('') + '</ul></div>';
-    }).join('') || '<div class="packing-empty">試算表的「行前準備」還沒有項目。</div>';
-    document.getElementById('packing-count').textContent = done + ' / ' + items.length;
-    document.getElementById('packing-bar').style.width = items.length ? Math.round(done / items.length * 100) + '%' : '0%';
+    const writable = !!PACKING_WRITE_URL;
+    if (writable) document.getElementById('packing-howto').innerHTML = '<strong>可以直接在這裡勾選</strong>(第一次會要你輸入通關密碼),會同步寫回試算表';
+
+    // 剛勾完、試算表發布的資料還沒更新(最多約 5 分鐘)時,先用這支手機記住的狀態
+    const pending = loadJSON(PENDING_KEY), now = Date.now();
+    items.forEach(it => {
+      const p = pending[it.text];
+      if (!p) return;
+      if (p.checked === it.checked || now - p.ts > 15 * 60000) delete pending[it.text];
+      else it.checked = p.checked;
+    });
+    saveJSON(PENDING_KEY, pending);
+
+    function paint(){
+      const cats = []; items.forEach(it => { if (!cats.includes(it.category)) cats.push(it.category); });
+      let done = 0;
+      groupsEl.innerHTML = cats.map(cat => {
+        const list = items.filter(it => it.category === cat), c = list.filter(it => it.checked).length;
+        done += c;
+        return '<div class="pack-group"><div class="pack-group-head"><span class="icon">' + esc(ICON[cat] || '項') + '</span><h4>' + esc(cat) + '</h4><span class="g-count">' + c + '/' + list.length + '</span></div>' +
+          '<ul class="pack-list">' + list.map(it => {
+            const id = 'pk-' + items.indexOf(it);
+            return '<li class="pack-item' + (it.checked ? ' is-checked' : '') + (it.saving ? ' is-saving' : '') + '"><input type="checkbox" id="' + id + '" data-idx="' + items.indexOf(it) + '"' +
+              (writable && !it.saving ? '' : ' disabled') + (it.checked ? ' checked' : '') + '>' +
+              '<label for="' + id + '">' + esc(it.text) + (it.note ? '<span class="pack-note">' + esc(it.note) + '</span>' : '') + '</label>' +
+              (it.owner ? '<span class="pack-owner">' + esc(it.owner) + '</span>' : '') + '</li>';
+          }).join('') + '</ul></div>';
+      }).join('') || '<div class="packing-empty">試算表的「行前準備」還沒有項目。</div>';
+      document.getElementById('packing-count').textContent = done + ' / ' + items.length;
+      document.getElementById('packing-bar').style.width = items.length ? Math.round(done / items.length * 100) + '%' : '0%';
+    }
+    function msg(text){
+      const el = document.getElementById('packing-msg');
+      el.textContent = text || ''; el.hidden = !text;
+    }
+
+    groupsEl.addEventListener('change', e => {
+      const box = e.target.closest('input[data-idx]');
+      if (!box || !writable) return;
+      const it = items[+box.dataset.idx], want = box.checked;
+      let pass = ''; try { pass = localStorage.getItem(PASS_KEY) || ''; } catch(e) {}
+      if (!pass) {
+        pass = (window.prompt('請輸入行前準備的通關密碼(只要輸入一次,這支手機會記住)') || '').trim();
+        if (!pass) { box.checked = !want; return; }
+      }
+      it.checked = want; it.saving = true; paint(); msg('');
+      const pend = loadJSON(PENDING_KEY); pend[it.text] = {checked: want, ts: Date.now()}; saveJSON(PENDING_KEY, pend);
+      const fail = text => {
+        it.checked = !want; it.saving = false;
+        const p2 = loadJSON(PENDING_KEY); delete p2[it.text]; saveJSON(PENDING_KEY, p2);
+        paint(); msg(text);
+      };
+      fetch(PACKING_WRITE_URL, {method: 'POST', body: JSON.stringify({pass, item: it.text, row: it.row, checked: want})})
+        .then(r => r.json())
+        .then(res => {
+          if (res.ok) { try { localStorage.setItem(PASS_KEY, pass); } catch(e) {} it.saving = false; paint(); return; }
+          if (res.error === 'wrong_pass') { try { localStorage.removeItem(PASS_KEY); } catch(e) {} fail('通關密碼不對,沒有寫入。再勾一次會重新問密碼。'); }
+          else if (res.error === 'item_not_found' || res.error === 'ambiguous_item') fail('試算表裡找不到這個項目(可能剛被改名或刪除),請重新整理頁面。');
+          else fail('寫入失敗(' + (res.error || '未知原因') + '),請稍後再試,或直接在試算表勾選。');
+        })
+        .catch(() => fail('連不到試算表,沒有寫入。請確認網路後再試一次。'));
+    });
+    paint();
   }
 
   // ---------- 啟動 ----------
