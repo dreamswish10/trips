@@ -30,6 +30,9 @@ AI 助手遇到下面幾種情況要先問，不要自己決定：
 index.html            首頁，列出所有行程
 tokyo-2026/index.html 東京行程網頁（版面、CSS、JS），行程內容從 Google 試算表讀取
 tokyo-2026/README.md  行程節奏表 + 待補清單
+tokyo-2026/manifest.json, sw.js, icons/  PWA:加到主畫面、離線也能打開
+tokyo-2026/vendor/leaflet/  地圖程式 Leaflet 1.9.4(放在網站內,不依賴外部 CDN)
+docs/apps-script/     行前準備網頁勾選寫回試算表的 Apps Script(通關密碼不要放進 repo)
 docs/sheet-schema.md  Google 試算表的欄位規格與主從關係
 fukuoka-2026/         已完成的行程，已用 tag trip-2026-fukuoka 封存，除非另外要求，不要改
 ```
@@ -67,6 +70,7 @@ fukuoka-2026/         已完成的行程，已用 tag trip-2026-fukuoka 封存�
 ## 每次修改後
 
 - 行程有大改時，同步更新 `tokyo-2026/README.md` 的「行程節奏」表和「待補」清單。
+- 動到 `tokyo-2026/vendor/`、`icons/` 或 `sw.js` 的快取清單時，把 `sw.js` 的 `VERSION` 加 1，手機上的 PWA 才會換成新版。只改 `index.html` 不用改。
 - 用瀏覽器開啟頁面確認：console 沒有錯誤，切換天數和地圖都正常，手機寬度（390px）的版面沒有跑掉。工具沒辦法開瀏覽器的話，要在回報裡說明「未實際測試頁面」。
 - 回報時用條列寫出這次改了哪些天的哪些項目，以及哪些資訊還待確認。
 
