@@ -1,6 +1,6 @@
 // 東京行程 PWA 的 Service Worker：讓網頁在沒網路時也能打開。
 // 改了網頁或這個檔案的快取清單時，把 VERSION 加 1，手機才會換成新版。
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL = 'tokyo2026-shell-' + VERSION;
 const TILES = 'tokyo2026-tiles';
 const FONTS = 'tokyo2026-fonts';

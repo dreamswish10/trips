@@ -21,6 +21,17 @@ html[data-theme="glass"]{
   --g-radius:22px;
   --g-font:-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang TC", "Noto Sans TC", "Helvetica Neue", sans-serif;
   color-scheme:light;
+  /* 把原版和紙的顏色變數對應到 iOS 顏色：原版裡寫死的字色、底色會一起跟著換，深色模式也看得到 */
+  --ink:var(--g-label);
+  --ink-soft:var(--g-label-2);
+  --muted:var(--g-label-3);
+  --paper:#ffffff;
+  --paper-2:rgba(255,255,255,.6);
+  --vermillion:var(--g-tint);
+  --vermillion-soft:var(--g-tint);
+  --indigo:var(--g-blue);
+  --indigo-deep:var(--g-blue);
+  --line:var(--g-sep);
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="glass"]{
@@ -37,6 +48,8 @@ html[data-theme="glass"]{
     --g-shadow:0 10px 30px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.3);
     --g-hi:inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(255,255,255,.04);
     color-scheme:dark;
+    --paper:#1c1c1e;
+    --paper-2:rgba(44,46,58,.6);
   }
 }
 
