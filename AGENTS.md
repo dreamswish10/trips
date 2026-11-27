@@ -32,6 +32,7 @@ tokyo-2026/index.html 東京行程網頁（版面、CSS、JS），行程內容�
 tokyo-2026/README.md  行程節奏表 + 待補清單
 tokyo-2026/manifest.json, sw.js, icons/  PWA:加到主畫面、離線也能打開
 tokyo-2026/vendor/leaflet/  地圖程式 Leaflet 1.9.4(放在網站內,不依賴外部 CDN)
+tokyo-2026/theme-glass.css  Liquid Glass 外觀(預設)。原本的和紙樣式寫在 index.html 的 <style>,沒有被改動
 docs/apps-script/     行前準備網頁勾選寫回試算表的 Apps Script(通關密碼不要放進 repo)
 docs/sheet-schema.md  Google 試算表的欄位規格與主從關係
 fukuoka-2026/         已完成的行程，已用 tag trip-2026-fukuoka 封存，除非另外要求，不要改
@@ -73,6 +74,13 @@ fukuoka-2026/         已完成的行程，已用 tag trip-2026-fukuoka 封存�
 - 動到 `tokyo-2026/vendor/`、`icons/` 或 `sw.js` 的快取清單時，把 `sw.js` 的 `VERSION` 加 1，手機上的 PWA 才會換成新版。只改 `index.html` 不用改。
 - 用瀏覽器開啟頁面確認：console 沒有錯誤，切換天數和地圖都正常，手機寬度（390px）的版面沒有跑掉。工具沒辦法開瀏覽器的話，要在回報裡說明「未實際測試頁面」。
 - 回報時用條列寫出這次改了哪些天的哪些項目，以及哪些資訊還待確認。
+
+## 外觀
+
+- 網頁有兩種外觀:**Liquid Glass**(預設,`theme-glass.css`)和**和紙**(原版,`index.html` 裡的 `<style>`)。網頁最下方和電腦版側邊欄可以切換,選擇會記在各自的手機上。
+- Liquid Glass 的規則全部寫成 `html[data-theme="glass"] ...`,只疊在原版上面。**改版面時兩種外觀都要檢查**。
+- 想把預設改回和紙:把 `index.html` 開頭那段外觀設定的預設值從 `glass` 改成 `washi`。
+- 改成 Liquid Glass 之前的完整版本是 commit `5ad2a7c`。
 
 ## 隱私（網站是公開的）
 

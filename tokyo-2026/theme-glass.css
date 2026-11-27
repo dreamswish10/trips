@@ -1,0 +1,465 @@
+/* =====================================================================
+   東京行程 · Liquid Glass 外觀（iOS 風格）
+   只在 <html data-theme="glass"> 時生效，原本的和紙樣式完全不動。
+   想回到原版：網頁最下方「外觀」選「和紙」，或把 index.html 預設的外觀改成 washi。
+   ===================================================================== */
+
+html[data-theme="glass"]{
+  --g-tint:#e5533b;
+  --g-tint-soft:rgba(229,83,59,.14);
+  --g-blue:#0a84ff;
+  --g-label:#1c1c1e;
+  --g-label-2:rgba(60,60,67,.72);
+  --g-label-3:rgba(60,60,67,.5);
+  --g-sep:rgba(60,60,67,.14);
+  --g-fill:rgba(255,255,255,.55);
+  --g-fill-strong:rgba(255,255,255,.72);
+  --g-border:rgba(255,255,255,.7);
+  --g-shadow:0 10px 30px rgba(30,40,90,.10), 0 1px 2px rgba(30,40,90,.06);
+  --g-hi:inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 0 rgba(255,255,255,.25);
+  --g-blur:blur(22px) saturate(180%);
+  --g-radius:22px;
+  --g-font:-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang TC", "Noto Sans TC", "Helvetica Neue", sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="glass"]{
+    --g-tint:#ff6a4d;
+    --g-tint-soft:rgba(255,106,77,.2);
+    --g-blue:#4da3ff;
+    --g-label:#f5f5f7;
+    --g-label-2:rgba(235,235,245,.72);
+    --g-label-3:rgba(235,235,245,.48);
+    --g-sep:rgba(255,255,255,.12);
+    --g-fill:rgba(40,42,54,.48);
+    --g-fill-strong:rgba(44,46,58,.72);
+    --g-border:rgba(255,255,255,.14);
+    --g-shadow:0 10px 30px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.3);
+    --g-hi:inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(255,255,255,.04);
+    color-scheme:dark;
+  }
+}
+
+/* ---------- 背景：玻璃後面要有顏色，玻璃感才出得來 ---------- */
+html[data-theme="glass"] body{
+  font-family:var(--g-font);
+  color:var(--g-label);
+  background:#eef1f8;
+  background-image:none;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:.01em;
+}
+html[data-theme="glass"] body::before{
+  content:'';
+  position:fixed;
+  inset:-10vmax;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(40vmax 40vmax at 12% 8%, rgba(120,170,255,.55), transparent 70%),
+    radial-gradient(38vmax 38vmax at 92% 18%, rgba(255,160,130,.5), transparent 70%),
+    radial-gradient(42vmax 42vmax at 78% 88%, rgba(170,140,255,.45), transparent 70%),
+    radial-gradient(36vmax 36vmax at 8% 92%, rgba(120,220,200,.4), transparent 70%),
+    #eef1f8;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="glass"] body{background:#0b0e18}
+  html[data-theme="glass"] body::before{
+    background:
+      radial-gradient(40vmax 40vmax at 12% 8%, rgba(40,80,200,.55), transparent 70%),
+      radial-gradient(38vmax 38vmax at 92% 18%, rgba(190,60,40,.42), transparent 70%),
+      radial-gradient(42vmax 42vmax at 78% 88%, rgba(110,60,200,.45), transparent 70%),
+      radial-gradient(36vmax 36vmax at 8% 92%, rgba(20,130,120,.35), transparent 70%),
+      #0b0e18;
+  }
+}
+
+/* 全部改用系統字體，拿掉和紙風格的明朝體與斜體 */
+html[data-theme="glass"] body *:not(.leaflet-container *){font-family:var(--g-font)}
+html[data-theme="glass"] .display,
+html[data-theme="glass"] .jp{font-family:var(--g-font)}
+html[data-theme="glass"] .hero .sub,
+html[data-theme="glass"] .day-title .narrative{font-style:normal}
+html[data-theme="glass"] strong{color:inherit;font-weight:650}
+
+/* ---------- 共用的玻璃材質 ---------- */
+html[data-theme="glass"] .tip,
+html[data-theme="glass"] .stop-card,
+html[data-theme="glass"] .transport-card,
+html[data-theme="glass"] .shop-card,
+html[data-theme="glass"] .place-card,
+html[data-theme="glass"] .pack-group,
+html[data-theme="glass"] .meta-item,
+html[data-theme="glass"] .day-header,
+html[data-theme="glass"] .hero-main,
+html[data-theme="glass"] .shop-intro,
+html[data-theme="glass"] .places-intro,
+html[data-theme="glass"] .packing-intro,
+html[data-theme="glass"] .data-issues,
+html[data-theme="glass"] .places-geo-msg{
+  background:var(--g-fill);
+  border:1px solid var(--g-border);
+  border-radius:var(--g-radius);
+  box-shadow:var(--g-shadow), var(--g-hi);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+  color:var(--g-label);
+}
+
+/* ---------- 桌機：側邊欄變成浮動的玻璃面板 ---------- */
+html[data-theme="glass"] .sidebar{
+  top:12px;
+  height:calc(100vh - 24px);
+  margin:12px 0 12px 12px;
+  border-radius:28px;
+  background:var(--g-fill);
+  border:1px solid var(--g-border);
+  box-shadow:var(--g-shadow), var(--g-hi);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+  padding:24px 14px;
+}
+html[data-theme="glass"] .sidebar-brand{font-size:17px;font-weight:700;color:var(--g-label);border-bottom-color:var(--g-sep)}
+html[data-theme="glass"] .sidebar-brand .dates{color:var(--g-label-3);letter-spacing:.04em;font-size:12px}
+html[data-theme="glass"] .sidebar-brand .stamp{border:none;background:var(--g-tint-soft);color:var(--g-tint);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600}
+html[data-theme="glass"] .nav-item{border-radius:14px;color:var(--g-label);font-size:15px;padding:10px 12px}
+html[data-theme="glass"] .nav-item .nav-num{display:none}
+html[data-theme="glass"] .nav-item .nav-en{color:var(--g-label-3);letter-spacing:.06em;font-size:10px}
+html[data-theme="glass"] .nav-item:hover{background:rgba(127,127,127,.12)}
+html[data-theme="glass"] .nav-item.is-active{background:var(--g-tint);color:#fff;box-shadow:0 6px 16px rgba(229,83,59,.3)}
+html[data-theme="glass"] .nav-item.is-active .nav-en{color:rgba(255,255,255,.75)}
+html[data-theme="glass"] .sidebar-foot{border-top-color:var(--g-sep);color:var(--g-label-3);letter-spacing:.05em}
+
+/* ---------- 手機：底部浮動的玻璃分頁列（像 iOS 的 Tab Bar） ---------- */
+@media (max-width: 900px){
+  html[data-theme="glass"] .main-content{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  html[data-theme="glass"] .pill-nav{
+    position:fixed;
+    top:auto;
+    left:10px;
+    right:10px;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+    z-index:1000;
+    padding:6px;
+    gap:2px;
+    overflow:visible;
+    border:1px solid var(--g-border);
+    border-radius:999px;
+    background:var(--g-fill-strong);
+    box-shadow:0 12px 32px rgba(20,30,70,.18), var(--g-hi);
+    -webkit-backdrop-filter:blur(26px) saturate(190%);
+    backdrop-filter:blur(26px) saturate(190%);
+    scroll-snap-type:none;
+  }
+  html[data-theme="glass"] .pill-item{
+    flex:1 1 0;
+    min-width:0;
+    flex-direction:column;
+    gap:2px;
+    padding:6px 0 5px;
+    border:none;
+    border-radius:999px;
+    background:transparent;
+    color:var(--g-label-2);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:0;
+  }
+  html[data-theme="glass"] .pill-item .nav-num{display:none}
+  html[data-theme="glass"] .pill-item::before{
+    content:'';
+    width:22px;
+    height:22px;
+    background:currentColor;
+    -webkit-mask:var(--icon) center / contain no-repeat;
+    mask:var(--icon) center / contain no-repeat;
+  }
+  html[data-theme="glass"] .pill-item.is-active{
+    background:var(--g-tint-soft);
+    color:var(--g-tint);
+    border:none;
+  }
+}
+/* 分頁圖示（線條圖示，用 mask 跟著文字顏色變色） */
+html[data-theme="glass"] .pill-item[data-view="home"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E")}
+html[data-theme="glass"] .pill-item[data-view="notes"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 11v6M12 7.5v.01'/%3E%3C/svg%3E")}
+html[data-theme="glass"] .pill-item[data-view="days"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='3'/%3E%3Cpath d='M3 10h18M8 3v4M16 3v4'/%3E%3C/svg%3E")}
+html[data-theme="glass"] .pill-item[data-view="shopping"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8h14l-1 12H6z'/%3E%3Cpath d='M9 8V6a3 3 0 0 1 6 0v2'/%3E%3C/svg%3E")}
+html[data-theme="glass"] .pill-item[data-view="transport"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='3' width='14' height='14' rx='4'/%3E%3Cpath d='M5 11h14M9 21l-2-3M15 21l2-3M9 14h.01M15 14h.01'/%3E%3C/svg%3E")}
+html[data-theme="glass"] .pill-item[data-view="places"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E")}
+html[data-theme="glass"] .pill-item[data-view="packing"]{--icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6h11M9 12h11M9 18h11'/%3E%3Cpath d='m3.5 6 1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17'/%3E%3C/svg%3E")}
+
+/* ---------- 封面 ---------- */
+html[data-theme="glass"] .hero{min-height:auto;padding:28px clamp(16px,4vw,48px) 24px;gap:16px}
+html[data-theme="glass"] .hero::before,
+html[data-theme="glass"] .hero::after{display:none}
+html[data-theme="glass"] .top-bar{color:var(--g-label-3);letter-spacing:.08em;font-size:12px}
+html[data-theme="glass"] .top-bar .stamp{border:none;transform:none;background:var(--g-tint-soft);color:var(--g-tint);border-radius:999px;font-weight:600}
+html[data-theme="glass"] .hero-main{padding:28px 24px;flex:0 0 auto}
+html[data-theme="glass"] .kicker{color:var(--g-tint);letter-spacing:.08em;font-weight:600;font-size:13px;margin-bottom:14px}
+html[data-theme="glass"] .kicker::before{display:none}
+html[data-theme="glass"] .hero h1{font-size:clamp(40px,9vw,84px);font-weight:800;letter-spacing:-.03em;line-height:1.02}
+html[data-theme="glass"] .hero h1 .jp-mark{font-size:.32em;vertical-align:middle;color:var(--g-tint);background:var(--g-tint-soft);border-radius:999px;padding:4px 12px;font-weight:600;letter-spacing:.02em}
+html[data-theme="glass"] .hero .sub{color:var(--g-label-2);font-size:clamp(15px,2vw,19px);line-height:1.6}
+html[data-theme="glass"] .meta-grid{border-top:none;padding-top:0;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+html[data-theme="glass"] .meta-item{padding:14px 16px;border-radius:18px}
+html[data-theme="glass"] .meta-item .label{color:var(--g-label-3);letter-spacing:.06em;font-size:11px;font-weight:600}
+html[data-theme="glass"] .meta-item .value{font-size:19px;font-weight:700;color:var(--g-label)}
+html[data-theme="glass"] .meta-item .value .small{color:var(--g-label-3)}
+
+/* ---------- 各頁的大標題（iOS Large Title） ---------- */
+html[data-theme="glass"] .overview,
+html[data-theme="glass"] .days{padding-top:24px}
+html[data-theme="glass"] .section-head{margin-bottom:20px;gap:10px;align-items:center}
+html[data-theme="glass"] .section-head .num{display:none}
+html[data-theme="glass"] .section-head h2,
+html[data-theme="glass"] .transport-inner h2{font-size:clamp(30px,5vw,40px);font-weight:800;letter-spacing:-.02em;color:var(--g-label)}
+html[data-theme="glass"] .jp-mark{font-family:var(--g-font)}
+html[data-theme="glass"] .section-head h2 .jp-mark,
+html[data-theme="glass"] .transport-inner h2 .jp-mark{font-size:.42em;color:var(--g-tint);margin-left:8px;font-weight:600;vertical-align:middle}
+html[data-theme="glass"] .section-head .tag{border:none;padding:3px 10px;border-radius:999px;background:rgba(127,127,127,.12);color:var(--g-label-2);letter-spacing:.06em;font-size:11px}
+
+/* ---------- 行前重點 ---------- */
+html[data-theme="glass"] .quick-tips{gap:12px}
+html[data-theme="glass"] .tip{padding:18px}
+html[data-theme="glass"] .tip .icon{font-family:var(--g-font);font-weight:800;font-size:15px;width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--g-tint-soft);color:var(--g-tint);margin-bottom:10px}
+html[data-theme="glass"] .tip .t-title{font-size:16px;font-weight:700}
+html[data-theme="glass"] .tip .t-body{color:var(--g-label-2);font-size:14px;line-height:1.65}
+
+/* ---------- 每日行程 ---------- */
+html[data-theme="glass"] .sheet-bar{color:var(--g-label-3)}
+html[data-theme="glass"] .sheet-bar a,
+html[data-theme="glass"] .packing-intro a.sheet-edit-link{color:var(--g-blue)}
+html[data-theme="glass"] .tab-nav{
+  position:sticky;
+  top:10px;
+  z-index:50;
+  padding:6px;
+  gap:4px;
+  border:1px solid var(--g-border);
+  border-radius:20px;
+  background:var(--g-fill-strong);
+  box-shadow:var(--g-shadow), var(--g-hi);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+  margin-bottom:18px;
+}
+html[data-theme="glass"] .tab-btn{border:none;border-radius:14px;background:transparent;color:var(--g-label);padding:8px 12px;min-width:68px}
+html[data-theme="glass"] .tab-btn .tab-day-num{color:var(--g-label-3);letter-spacing:.04em;font-size:10px;font-weight:600}
+html[data-theme="glass"] .tab-btn .tab-date{font-size:17px;font-weight:700;color:var(--g-label)}
+html[data-theme="glass"] .tab-btn .tab-label{color:var(--g-label-3);font-size:10px}
+html[data-theme="glass"] .tab-btn:hover{background:rgba(127,127,127,.12)}
+html[data-theme="glass"] .tab-btn.is-active{background:var(--g-tint);box-shadow:0 6px 16px rgba(229,83,59,.3)}
+html[data-theme="glass"] .tab-btn.is-active .tab-date,
+html[data-theme="glass"] .tab-btn.is-active .tab-day-num,
+html[data-theme="glass"] .tab-btn.is-active .tab-label{color:#fff}
+
+html[data-theme="glass"] .day-header{padding:20px;margin-bottom:16px;border-bottom:1px solid var(--g-border);gap:14px}
+html[data-theme="glass"] .day-number .day-label{color:var(--g-tint);letter-spacing:.08em;font-weight:600}
+html[data-theme="glass"] .day-number .day-big{font-weight:800;color:var(--g-label);letter-spacing:-.04em}
+html[data-theme="glass"] .day-number .day-of-week{color:var(--g-label-3);font-size:13px}
+html[data-theme="glass"] .day-title h3{font-weight:800;letter-spacing:-.02em;color:var(--g-label)}
+html[data-theme="glass"] .day-title .narrative{color:var(--g-label-2);font-size:15px;line-height:1.7}
+html[data-theme="glass"] .day-stay{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:999px;background:rgba(10,132,255,.12);color:var(--g-blue);font-weight:600}
+html[data-theme="glass"] .day-date .date-mm{font-weight:800;color:var(--g-label)}
+html[data-theme="glass"] .day-date .date-jp{color:var(--g-tint);font-size:13px}
+
+html[data-theme="glass"] .day-map-wrap{border-radius:var(--g-radius);border:1px solid var(--g-border);box-shadow:var(--g-shadow);margin-bottom:20px;background:var(--g-fill)}
+html[data-theme="glass"] .day-map-legend{background:var(--g-fill-strong);border-top:1px solid var(--g-sep);color:var(--g-label-2);-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur)}
+html[data-theme="glass"] .day-map-legend .meta{color:var(--g-label-3);letter-spacing:0}
+html[data-theme="glass"] .pin{border-color:#fff;font-family:var(--g-font)}
+html[data-theme="glass"] .pin{background:var(--g-tint)}
+html[data-theme="glass"] .pin.start{background:var(--g-blue)}
+html[data-theme="glass"] .pin.end{background:#1c1c1e}
+
+html[data-theme="glass"] .timeline::before{left:58px;opacity:.25;background:var(--g-label-3)}
+html[data-theme="glass"] .stop{grid-template-columns:58px 1fr;gap:16px;padding:8px 0}
+html[data-theme="glass"] .stop-time{padding-top:16px}
+html[data-theme="glass"] .stop-time .hh{font-size:17px;font-weight:700;color:var(--g-label);font-variant-numeric:tabular-nums;letter-spacing:0}
+html[data-theme="glass"] .stop-time .dur{color:var(--g-label-3);letter-spacing:0}
+html[data-theme="glass"] .stop-time::after{background:var(--g-tint);border-color:#fff;box-shadow:0 0 0 3px var(--g-tint-soft);right:-15px}
+html[data-theme="glass"] .stop.is-major .stop-time::after{background:var(--g-tint)}
+html[data-theme="glass"] .stop-card{padding:16px 18px;border-left:1px solid var(--g-border)}
+html[data-theme="glass"] .stop.is-major .stop-card{border-left:1px solid var(--g-border);box-shadow:var(--g-shadow), var(--g-hi), inset 3px 0 0 var(--g-tint)}
+html[data-theme="glass"] .stop-name{font-size:17px;font-weight:700;color:var(--g-label);letter-spacing:-.01em}
+html[data-theme="glass"] .stop-notes{color:var(--g-label-2);font-size:14.5px;line-height:1.7}
+html[data-theme="glass"] .stop-meta{color:var(--g-label-3)}
+html[data-theme="glass"] .stop-type{border-radius:999px;letter-spacing:.04em;font-weight:600;background:rgba(127,127,127,.14);color:var(--g-label-2)}
+html[data-theme="glass"] .stop-type.food,
+html[data-theme="glass"] .stop-type.shrine{background:rgba(229,83,59,.14);color:var(--g-tint)}
+html[data-theme="glass"] .stop-type.park{background:rgba(52,199,89,.16);color:#248a3d}
+html[data-theme="glass"] .stop-type.shop{background:rgba(10,132,255,.14);color:var(--g-blue)}
+html[data-theme="glass"] .stop-type.fun{background:rgba(175,82,222,.16);color:#a050d0}
+html[data-theme="glass"] .stop-type.museum{background:rgba(255,159,10,.18);color:#c77700}
+html[data-theme="glass"] .stop-badge{border-radius:999px}
+html[data-theme="glass"] .map-btn{
+  border:none;
+  border-radius:999px;
+  background:rgba(10,132,255,.12);
+  color:var(--g-blue);
+  font-weight:600;
+  padding:8px 14px;
+  letter-spacing:0;
+}
+html[data-theme="glass"] .map-btn:hover{background:rgba(10,132,255,.2);color:var(--g-blue)}
+html[data-theme="glass"] .day-nav{border-top:none;margin-top:24px;padding-top:0}
+html[data-theme="glass"] .day-nav button{
+  border:1px solid var(--g-border);
+  border-radius:18px;
+  background:var(--g-fill);
+  box-shadow:var(--g-shadow), var(--g-hi);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+  color:var(--g-label);
+}
+html[data-theme="glass"] .day-nav button:hover:not(:disabled){background:var(--g-fill-strong);color:var(--g-label)}
+html[data-theme="glass"] .day-nav .nav-label{color:var(--g-tint);letter-spacing:.06em}
+html[data-theme="glass"] .days-empty{color:var(--g-label-3)}
+
+/* ---------- 購物、交通 ---------- */
+html[data-theme="glass"] .shop-intro,
+html[data-theme="glass"] .places-intro,
+html[data-theme="glass"] .packing-intro{padding:16px 18px;color:var(--g-label-2);border-left:1px solid var(--g-border)}
+html[data-theme="glass"] .shop-area-head{border-bottom-color:var(--g-sep)}
+html[data-theme="glass"] .shop-area-head .area-jp{font-family:var(--g-font);font-weight:800;font-size:16px;width:36px;height:36px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:var(--g-tint-soft);color:var(--g-tint)}
+html[data-theme="glass"] .shop-area-head h3{font-weight:800;color:var(--g-label)}
+html[data-theme="glass"] .shop-area-head .area-note{color:var(--g-label-3)}
+html[data-theme="glass"] .shop-card{padding:18px}
+html[data-theme="glass"] .shop-head h4,
+html[data-theme="glass"] .transport-card h4{font-weight:700;color:var(--g-label)}
+html[data-theme="glass"] .shop-zone{color:var(--g-label-3)}
+html[data-theme="glass"] .shop-desc,
+html[data-theme="glass"] .shop-list,
+html[data-theme="glass"] .transport-card p{color:var(--g-label-2)}
+html[data-theme="glass"] .transport{background:transparent}
+html[data-theme="glass"] .transport-inner{color:var(--g-label)}
+html[data-theme="glass"] .transport-card{padding:18px}
+
+/* ---------- 口袋名單 ---------- */
+html[data-theme="glass"] #places-q{
+  border:1px solid var(--g-border);
+  border-radius:14px;
+  background:var(--g-fill-strong);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+  color:var(--g-label);
+  font-size:16px;
+  padding:12px 14px;
+}
+html[data-theme="glass"] .filter-chip{border:1px solid var(--g-border);border-radius:999px;background:var(--g-fill);color:var(--g-label);-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur)}
+html[data-theme="glass"] .filter-chip.is-active{background:var(--g-tint);border-color:transparent;color:#fff}
+html[data-theme="glass"] .places-modes{border:1px solid var(--g-border);border-radius:12px;background:rgba(127,127,127,.14);padding:2px}
+html[data-theme="glass"] .pv-mode{border:none;border-radius:10px;background:transparent;color:var(--g-label)}
+html[data-theme="glass"] .pv-mode.is-active{background:var(--g-fill-strong);color:var(--g-label);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+html[data-theme="glass"] .places-locate,
+html[data-theme="glass"] .places-sort,
+html[data-theme="glass"] .places-csv{border:none;border-radius:999px;background:rgba(10,132,255,.12);color:var(--g-blue);font-weight:600}
+html[data-theme="glass"] .places-locate.is-active,
+html[data-theme="glass"] .places-sort.is-active{background:var(--g-blue);color:#fff}
+html[data-theme="glass"] .places-count{color:var(--g-label-3)}
+html[data-theme="glass"] .places-map-wrap{border-radius:var(--g-radius);border:1px solid var(--g-border);overflow:hidden;box-shadow:var(--g-shadow)}
+html[data-theme="glass"] .places-map-legend{background:var(--g-fill-strong);color:var(--g-label-2)}
+html[data-theme="glass"] .place-card{padding:16px 18px}
+html[data-theme="glass"] .place-name{font-weight:700;color:var(--g-label)}
+html[data-theme="glass"] .place-cat{border-radius:999px}
+html[data-theme="glass"] .place-new{border-radius:999px;background:var(--g-tint);color:#fff}
+html[data-theme="glass"] .place-meta,
+html[data-theme="glass"] .place-day,
+html[data-theme="glass"] .place-dist{color:var(--g-label-3)}
+html[data-theme="glass"] .place-note{color:var(--g-label-2)}
+html[data-theme="glass"] .place-map{color:var(--g-blue);font-weight:600}
+
+/* ---------- 行前準備：iOS 分組清單 + 圓形勾選框 ---------- */
+html[data-theme="glass"] .packing-progress .count{font-weight:800;color:var(--g-label)}
+html[data-theme="glass"] .packing-progress .bar{height:8px;border-radius:999px;background:rgba(127,127,127,.18);overflow:hidden}
+html[data-theme="glass"] .packing-progress .bar-fill{border-radius:999px;background:linear-gradient(90deg,#34c759,#30d158)}
+html[data-theme="glass"] .pack-group{padding:6px 0;overflow:hidden}
+html[data-theme="glass"] .pack-group-head{padding:10px 16px 6px;border-bottom:none}
+html[data-theme="glass"] .pack-group-head .icon{font-family:var(--g-font);font-weight:800;font-size:13px;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;background:var(--g-tint-soft);color:var(--g-tint)}
+html[data-theme="glass"] .pack-group-head h4{font-weight:700;color:var(--g-label)}
+html[data-theme="glass"] .pack-group-head .g-count{color:var(--g-label-3)}
+html[data-theme="glass"] .pack-item{padding:11px 16px;border-bottom:1px solid var(--g-sep);margin-left:0}
+html[data-theme="glass"] .pack-item label{color:var(--g-label)}
+html[data-theme="glass"] .pack-item.is-checked label{color:var(--g-label-3)}
+html[data-theme="glass"] .pack-item input[type="checkbox"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  border-radius:50%;
+  border:2px solid rgba(127,127,127,.45);
+  background:transparent;
+  display:grid;
+  place-content:center;
+  margin:0;
+  cursor:pointer;
+}
+html[data-theme="glass"] .pack-item input[type="checkbox"]:checked{
+  background:#34c759;
+  border-color:#34c759;
+}
+html[data-theme="glass"] .pack-item input[type="checkbox"]:checked::after{
+  content:'';
+  width:11px;
+  height:6px;
+  border-left:2.5px solid #fff;
+  border-bottom:2.5px solid #fff;
+  transform:translateY(-1px) rotate(-45deg);
+}
+html[data-theme="glass"] .pack-item input[type="checkbox"]:disabled{cursor:default}
+html[data-theme="glass"] .pack-note,
+html[data-theme="glass"] .pack-owner{color:var(--g-label-3)}
+html[data-theme="glass"] .pack-owner{background:rgba(127,127,127,.14)}
+html[data-theme="glass"] .packing-msg{border-radius:14px}
+
+/* ---------- 提示訊息、資料問題 ---------- */
+html[data-theme="glass"] .data-status{
+  position:sticky;
+  top:8px;
+  z-index:60;
+  border-radius:16px;
+  border:1px solid rgba(255,204,0,.45);
+  background:rgba(255,214,10,.28);
+  color:var(--g-label);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+}
+html[data-theme="glass"] .data-issues{color:var(--g-label-2)}
+html[data-theme="glass"] .data-issues summary{color:var(--g-tint)}
+
+/* ---------- 地圖彈出視窗 ---------- */
+html[data-theme="glass"] .leaflet-popup-content-wrapper{
+  border-radius:16px !important;
+  background:var(--g-fill-strong) !important;
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+  color:var(--g-label);
+}
+html[data-theme="glass"] .leaflet-popup-content{font-family:var(--g-font) !important}
+html[data-theme="glass"] .leaflet-popup-content b{color:var(--g-label)}
+html[data-theme="glass"] .leaflet-popup-content small{color:var(--g-label-3)}
+html[data-theme="glass"] .leaflet-popup-tip{background:var(--g-fill-strong) !important}
+html[data-theme="glass"] .leaflet-bar a{border-radius:10px}
+html[data-theme="glass"] .leaflet-bar{border-radius:12px;overflow:hidden;border:1px solid var(--g-border) !important}
+
+/* ---------- 頁尾 ---------- */
+html[data-theme="glass"] footer{color:var(--g-label-3)}
+html[data-theme="glass"] footer .stamp{font-family:var(--g-font);font-weight:700;border:none;background:var(--g-tint-soft);color:var(--g-tint);border-radius:999px;transform:none}
+
+/* ---------- 修正：原本帶米色底的區塊 ---------- */
+html[data-theme="glass"] .places-search{background:none;top:8px;padding:8px 0}
+html[data-theme="glass"] .packing-progress{
+  border:1px solid var(--g-border);
+  border-radius:18px;
+  background:var(--g-fill);
+  box-shadow:var(--g-shadow), var(--g-hi);
+  -webkit-backdrop-filter:var(--g-blur);
+  backdrop-filter:var(--g-blur);
+}
+html[data-theme="glass"] .shop-intro strong,
+html[data-theme="glass"] .places-intro strong,
+html[data-theme="glass"] .packing-intro strong{color:var(--g-label)}
+/* 天數分頁的小字不要斷行 */
+html[data-theme="glass"] .tab-btn{min-width:74px;flex:0 0 auto}
+html[data-theme="glass"] .tab-btn .tab-label{white-space:nowrap}
